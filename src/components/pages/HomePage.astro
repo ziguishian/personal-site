@@ -1,0 +1,110 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import UniverseHero from '@/components/three/UniverseHero.astro';
+import SectionLabel from '@/components/ui/SectionLabel.astro';
+import LiveCard from '@/components/ui/LiveCard.astro';
+import Button from '@/components/ui/Button.astro';
+import { t, type Lang, withLang } from '@/utils/i18n';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+---
+
+<BaseLayout lang={lang} title={lang === 'zh' ? '子圭时安' : 'Home'} description={t(lang, 'heroBelief')}>
+  <script is:inline>
+    document.body.classList.add('home-mobile-reference');
+  </script>
+  <section id="top" class="home-hero relative min-h-screen overflow-hidden pt-24" data-scroll-cue>
+    <div class="orbital-hero-bg pointer-events-none absolute right-[-54vw] top-28 z-0 block h-[48vh] min-h-[320px] w-[132vw] opacity-[0.34] sm:right-[-32vw] sm:top-20 sm:h-[52vh] sm:w-[112vw] sm:opacity-[0.28] lg:pointer-events-auto lg:inset-y-20 lg:left-[34vw] lg:right-0 lg:h-auto lg:min-h-0 lg:w-auto lg:opacity-100">
+      <UniverseHero />
+    </div>
+    <div class="site-shell relative z-10 grid min-h-[calc(100vh-6rem)] items-center lg:items-start lg:pt-[17vh]">
+      <div class="home-hero-copy max-w-lg pb-[24vh] lg:pb-0">
+      <p class="mb-6 text-xs uppercase tracking-[0.12em] text-muted sm:text-sm lg:mb-7">{t(lang, 'heroRole')}</p>
+      <h1 class="home-hero-title text-balance text-[clamp(2.85rem,13vw,5rem)] font-normal leading-[0.94] lg:text-[clamp(3.6rem,5.8vw,6.7rem)]">{t(lang, 'heroName')}</h1>
+      {lang === 'zh' && <p class="mt-6 text-2xl font-semibold lg:mt-7">— {t(lang, 'heroCnName')} —</p>}
+      <p class="mt-8 text-[clamp(1.08rem,4.4vw,1.32rem)] leading-relaxed lg:mt-9 lg:text-[clamp(1.12rem,1.25vw,1.38rem)]">{t(lang, 'heroBelief')}</p>
+      {lang === 'zh' && <p class="mt-5 text-base leading-8 text-muted lg:mt-6 lg:text-lg">{t(lang, 'heroBeliefEn')}</p>}
+      <div class="mt-12 lg:mt-16"><Button href={withLang('/universe', lang)} label={t(lang, 'explore')} /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="home-now home-focus site-shell section-space border-t hairline" data-scroll-cue>
+    <div class="grid gap-12 lg:grid-cols-[0.28fr_1fr]">
+      <SectionLabel eyebrow={lang === 'zh' ? '01 / 焦点' : '01 / Focus'} title={t(lang, 'nowTitle')} intro={t(lang, 'nowIntro')} />
+      <div class="home-focus-grid grid gap-4 md:grid-cols-3">
+        <LiveCard title={lang === 'zh' ? '[Building]' : '[Building]'} value={lang === 'zh' ? '灵矩绘境' : 'Lingju Vision'} description={lang === 'zh' ? '探索艺术与 AI 的边界' : 'Exploring the edge of art and AI'} progress={65} progressLabel={t(lang, 'progress')} />
+        <LiveCard icon="circle" title={lang === 'zh' ? '[Incubating]' : '[Incubating]'} value={lang === 'zh' ? '子圭时安' : 'Zi Gui Shi An'} description={lang === 'zh' ? '超级个体 IP 的自我迭代' : 'A personal IP in public'} />
+        <LiveCard icon="sparkle" title={lang === 'zh' ? '[Thinking]' : '[Thinking]'} value={lang === 'zh' ? '人类文明' : 'Human Civilization'} description={lang === 'zh' ? 'AGI、星际探索与长期主义' : 'AGI, space and long-termism'} />
+      </div>
+    </div>
+  </section>
+
+  <section class="home-works home-node-section site-shell section-space border-t hairline" data-scroll-cue data-runtime-home data-lang={lang} data-works-base={withLang('/works', lang)} data-thinking-base={withLang('/thinking', lang)}>
+    <div class="grid gap-12 lg:grid-cols-[0.2fr_1fr]">
+      <div class="flex flex-col justify-between gap-10">
+        <SectionLabel eyebrow={lang === 'zh' ? '02 / 作品' : '02 / Works'} title={t(lang, 'worksTitle')} intro={t(lang, 'worksIntro')} />
+        <Button href={withLang('/works', lang)} label={t(lang, 'viewAllWorks')} />
+      </div>
+      <div class="home-work-grid grid gap-6 md:grid-cols-3" data-home-works></div>
+    </div>
+  </section>
+
+  <section class="home-thinking home-node-section site-shell section-space border-t hairline" data-scroll-cue>
+    <div class="grid gap-12 lg:grid-cols-[0.2fr_1fr]">
+      <div class="flex flex-col justify-between gap-10">
+        <SectionLabel eyebrow={lang === 'zh' ? '03 / 思考' : '03 / Thinking'} title={t(lang, 'thinkingTitle')} intro={t(lang, 'thinkingIntro')} />
+        <Button href={withLang('/thinking', lang)} label={t(lang, 'viewAllArticles')} />
+      </div>
+      <div class="home-thinking-grid grid gap-0 md:grid-cols-2" data-home-thinking></div>
+    </div>
+  </section>
+
+  <section class="home-about home-node-section site-shell section-space border-t hairline" data-scroll-cue>
+    <SectionLabel eyebrow={lang === 'zh' ? '04 / 关于' : '04 / About'} title={t(lang, 'aboutTitle')} />
+    <div class="mt-12 grid items-center gap-12 lg:grid-cols-[0.44fr_0.34fr_0.22fr]">
+      <img class="aspect-[4/2.45] w-full object-cover" src="/images/about/portrait.svg" alt="Zi Gui Shi An" loading="lazy" />
+      <div class:list={['space-y-6', lang === 'zh' ? 'text-xl leading-10' : 'text-lg leading-8']}>
+        {lang === 'zh' ? (
+          <>
+            <p>00后创业者 / 极客设计师 / AIGC 探索者。</p>
+            <p>痴迷 AIGC 与星际探索，爱 Coding、阅读与清茶。</p>
+            <p>正在构建「灵矩绘境」，探索艺术、AI 与制造之间的边界。</p>
+          </>
+        ) : (
+          <>
+            <p>Gen-Z entrepreneur / geek designer / AIGC explorer.</p>
+            <p>Obsessed with AI, interstellar exploration, coding, reading and quiet tea.</p>
+            <p>Building Lingju Vision to explore the boundary between art, AI and manufacturing.</p>
+          </>
+        )}
+        <Button href={withLang('/about', lang)} label={t(lang, 'moreAbout')} />
+      </div>
+      <ol class="space-y-7 border-l pl-8 text-base hairline lg:text-lg">
+        {(lang === 'zh' ? ['产品设计', 'AI 原生', '创业实践', '系统思维'] : ['Product Design', 'AI Native', 'Entrepreneurship', 'Systems Thinking']).map((item, index) => (
+          <li class="flex items-baseline gap-6 whitespace-nowrap"><span class="w-8 shrink-0 text-muted">{String(index + 1).padStart(2, '0')}</span><span>{item}</span></li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="home-live home-node-section site-shell section-space border-t hairline" data-scroll-cue>
+    <div class="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+      <SectionLabel eyebrow={lang === 'zh' ? '05 / 动态' : '05 / Live'} title={t(lang, 'liveTitle')} />
+      <Button href={withLang('/live', lang)} label={t(lang, 'viewLive')} />
+    </div>
+    <div class="grid gap-5 md:grid-cols-4">
+      <LiveCard title={lang === 'zh' ? '构建中的产品' : 'Product'} value={lang === 'zh' ? '时安 AI 助手 2.0' : 'Shian AI Assistant 2.0'} progress={65} progressLabel={t(lang, 'progress')} />
+      <LiveCard icon="circle" title={lang === 'zh' ? '孵化中的 IP' : 'Incubating'} value={lang === 'zh' ? '子圭时安' : 'Zi Gui Shi An'} description={lang === 'zh' ? '超级个体的自我迭代' : 'A personal IP in public'} />
+      <LiveCard icon="users" title={lang === 'zh' ? '创办项目' : 'Founder of'} value={lang === 'zh' ? '渡阡科技 / 灵矩绘境' : 'Duqian Tech / Lingju'} description={lang === 'zh' ? '从产品到制造' : 'Product to manufacturing'} />
+      <LiveCard icon="sparkle" title={lang === 'zh' ? '思考主题' : 'Thinking'} value={lang === 'zh' ? '人类文明' : 'Human Civilization'} description={lang === 'zh' ? 'AI、星际与长期主义' : 'AI, space and long-termism'} />
+    </div>
+  </section>
+  <script>
+    import { mountRuntimeHome } from '@/utils/runtimeContent';
+    document.querySelectorAll<HTMLElement>('[data-runtime-home]').forEach((root) => {
+      mountRuntimeHome(root);
+    });
+  </script>
+</BaseLayout>

@@ -1,0 +1,53 @@
+[
+  {
+    "title": "系统思维：所有的成长，都是系统的复利。",
+    "slug": "system-thinking",
+    "lang": "zh",
+    "description": "从孤立行动到复利系统，重新理解成长的结构。",
+    "date": "2026-04-24",
+    "cover": "/images/thinking/system.svg",
+    "category": "Method",
+    "tags": ["System", "Growth"],
+    "readingTime": "6 min",
+    "series": "AI Native",
+    "featured": true,
+    "draft": false,
+    "file": "/content/thinking/system-thinking.zh.md"
+  },
+  {
+    "title": "AI 原生：拥抱 AI，让创造力指数级放大。",
+    "slug": "ai-native",
+    "lang": "zh",
+    "description": "AI 原生不是给旧流程加一个按钮，而是重写创造流程。",
+    "date": "2026-04-20",
+    "tags": ["AI Native", "Creativity"],
+    "readingTime": "5 min",
+    "featured": true,
+    "draft": false,
+    "file": "/content/thinking/ai-native.zh.md"
+  },
+  {
+    "title": "创造驱动：从想法到产品，创造真实的价值。",
+    "slug": "creation-driven",
+    "lang": "zh",
+    "description": "创造不是表达欲，而是把想法变成可被使用的价值。",
+    "date": "2026-04-16",
+    "tags": ["Creation", "Product"],
+    "readingTime": "4 min",
+    "featured": true,
+    "draft": false,
+    "file": "/content/thinking/creation-driven.zh.md"
+  },
+  {
+    "title": "长期主义：长期不是一个选择，而是一种信仰。",
+    "slug": "long-termism",
+    "lang": "zh",
+    "description": "把时间从消耗品变成合伙人。",
+    "date": "2026-04-10",
+    "tags": ["Long-termism", "Life"],
+    "readingTime": "5 min",
+    "featured": true,
+    "draft": false,
+    "file": "/content/thinking/long-termism.zh.md"
+  }
+]

@@ -1,0 +1,59 @@
+---
+import { Menu, X } from 'lucide-astro';
+import ThemeToggle from './ThemeToggle.astro';
+import LanguageSwitch from './LanguageSwitch.astro';
+import { navItems, t, type Lang, withLang } from '@/utils/i18n';
+
+interface Props { lang: Lang; pathname: string }
+const { lang, pathname } = Astro.props;
+---
+
+<header class="site-header fixed inset-x-0 top-0 z-50 border-b border-transparent bg-[color-mix(in_srgb,var(--bg)_82%,transparent)] backdrop-blur-xl">
+  <div class="site-shell flex h-20 items-center justify-between">
+    <a href={withLang('/', lang)} class="flex items-center gap-4 focus-ring" aria-label="Zi Gui Shi An home">
+      <span class="grid h-11 w-11 place-items-center rounded-full border hairline">
+        <span class="relative h-7 w-px bg-text before:absolute before:left-1/2 before:top-1/2 before:h-3 before:w-3 before:-translate-x-1/2 before:-translate-y-1/2 before:rounded-full before:bg-text"></span>
+      </span>
+      <span class="text-sm uppercase tracking-[0.18em]">{t(lang, 'logoName')}</span>
+    </a>
+    <nav class="hidden items-center gap-10 text-sm uppercase md:flex">
+      {navItems.map((item) => (
+        <a class:list={['focus-ring transition-opacity hover:opacity-55', pathname.includes(item.href) && 'opacity-55']} href={withLang(item.href, lang)}>
+          {t(lang, item.key)}
+        </a>
+      ))}
+      <ThemeToggle />
+      <LanguageSwitch lang={lang} pathname={pathname} />
+    </nav>
+    <button class="focus-ring grid h-11 w-11 place-items-center rounded-full border hairline md:hidden" data-menu-button aria-label="Open menu">
+      <Menu size={18} strokeWidth={1.45} data-menu-open />
+      <X size={18} strokeWidth={1.45} class="hidden" data-menu-close />
+    </button>
+  </div>
+  <div class="mobile-menu-panel hidden md:hidden" data-mobile-menu>
+    <nav class="grid gap-4 text-2xl">
+      {navItems.map((item) => <a class="block border-b py-3 hairline" href={withLang(item.href, lang)}>{t(lang, item.key)}</a>)}
+      <div class="mobile-menu-controls mt-3 flex flex-wrap items-center justify-between gap-4">
+        <ThemeToggle />
+        <LanguageSwitch lang={lang} pathname={pathname} />
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const button = document.querySelector('[data-menu-button]');
+  const menu = document.querySelector('[data-mobile-menu]');
+  const openIcon = document.querySelector('[data-menu-open]');
+  const closeIcon = document.querySelector('[data-menu-close]');
+  button?.addEventListener('click', () => {
+    menu?.classList.toggle('hidden');
+    openIcon?.classList.toggle('hidden');
+    closeIcon?.classList.toggle('hidden');
+  });
+
+  const header = document.querySelector('.site-header');
+  const syncHeader = () => header?.classList.toggle('is-scrolled', window.scrollY > 18);
+  syncHeader();
+  window.addEventListener('scroll', syncHeader, { passive: true });
+</script>

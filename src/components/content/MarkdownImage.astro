@@ -1,0 +1,10 @@
+---
+import { getAssetUrl } from '@/utils/assets';
+interface Props { src: string; alt: string; caption?: string; wide?: boolean }
+const { src, alt, caption, wide = false } = Astro.props;
+---
+
+<figure class:list={[wide && 'md:-mx-28']}>
+  <img src={getAssetUrl(src)} alt={alt} loading="lazy" class="w-full object-cover" />
+  {caption && <figcaption class="mt-3 text-sm text-muted">{caption}</figcaption>}
+</figure>

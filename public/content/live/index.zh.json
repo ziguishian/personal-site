@@ -1,0 +1,41 @@
+[
+  {
+    "title": "灵矩绘境持续 Build in Public",
+    "slug": "update-001",
+    "lang": "zh",
+    "description": "公开记录「灵矩绘境」从 AIGC 到 C2M 的产品推演、创办过程与实战经验。",
+    "date": "2026-04-24",
+    "tags": ["Product"],
+    "type": "Product",
+    "related": "/works?slug=lingju",
+    "featured": true,
+    "draft": false,
+    "file": "/content/live/update-001.zh.md"
+  },
+  {
+    "title": "超级个体 IP「子圭时安」孵化中",
+    "slug": "personal-ip",
+    "lang": "zh",
+    "description": "通过文字、产品、技术文档、播客与数字花园持续完成自我迭代。",
+    "date": "2026-04-23",
+    "tags": ["Personal", "Writing"],
+    "type": "Personal",
+    "related": "/about",
+    "featured": true,
+    "draft": false,
+    "file": "/content/live/personal-ip.zh.md"
+  },
+  {
+    "title": "持续思考人类文明与星际探索",
+    "slug": "civilization-thinking",
+    "lang": "zh",
+    "description": "记录关于 AGI、火星移民、长期主义与人类创造力的底层思考。",
+    "date": "2026-04-22",
+    "tags": ["Thinking"],
+    "type": "Writing",
+    "related": "/thinking?slug=system-thinking",
+    "featured": true,
+    "draft": false,
+    "file": "/content/live/civilization-thinking.zh.md"
+  }
+]

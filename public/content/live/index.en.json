@@ -1,0 +1,41 @@
+[
+  {
+    "title": "Lingju Vision Is Building in Public",
+    "slug": "update-001",
+    "lang": "en",
+    "description": "Publicly recording the product reasoning and founder journey from AIGC to C2M.",
+    "date": "2026-04-24",
+    "tags": ["Product"],
+    "type": "Product",
+    "related": "/en/works?slug=lingju",
+    "featured": true,
+    "draft": false,
+    "file": "/content/live/update-001.en.md"
+  },
+  {
+    "title": "Zi Gui Shi An Personal IP Is Incubating",
+    "slug": "personal-ip",
+    "lang": "en",
+    "description": "Iterating through writing, products, technical notes, podcasts and a digital garden.",
+    "date": "2026-04-23",
+    "tags": ["Personal", "Writing"],
+    "type": "Personal",
+    "related": "/en/about",
+    "featured": true,
+    "draft": false,
+    "file": "/content/live/personal-ip.en.md"
+  },
+  {
+    "title": "Thinking About Civilization And Space",
+    "slug": "civilization-thinking",
+    "lang": "en",
+    "description": "Notes on AGI, Mars migration, long-termism and human creativity.",
+    "date": "2026-04-22",
+    "tags": ["Thinking"],
+    "type": "Writing",
+    "related": "/en/thinking?slug=system-thinking",
+    "featured": true,
+    "draft": false,
+    "file": "/content/live/civilization-thinking.en.md"
+  }
+]

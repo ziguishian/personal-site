@@ -1,0 +1,27 @@
+---
+import { Activity, BrainCircuit, Orbit, Rocket, Sparkles, Users } from 'lucide-astro';
+interface Props {
+  icon?: 'activity' | 'circle' | 'sparkle' | 'users' | 'rocket' | 'brain';
+  title: string;
+  value: string;
+  description?: string;
+  progress?: number;
+  progressLabel?: string;
+}
+const { icon = 'sparkle', title, value, description, progress, progressLabel = 'Progress' } = Astro.props;
+const icons = { activity: Activity, circle: Orbit, sparkle: Sparkles, users: Users, rocket: Rocket, brain: BrainCircuit };
+const Icon = icons[icon];
+---
+
+<article class="bg-surface p-8 shadow-[0_16px_45px_rgba(0,0,0,0.04)]">
+  <div class="icon-bubble icon-bubble-lg"><Icon size={20} strokeWidth={1.35} /></div>
+  <h3 class="mt-8 text-2xl font-semibold">{title}</h3>
+  <p class="mt-4 text-2xl leading-9">{value}</p>
+  {typeof progress === 'number' && (
+    <div class="mt-6">
+      <p class="mb-3 text-lg">{progressLabel} {progress}%</p>
+      <div class="h-1.5 bg-text/12"><div class="h-full bg-text" style={`width:${progress}%`}></div></div>
+    </div>
+  )}
+  {description && <p class="mt-8 text-lg text-muted">{description}</p>}
+</article>

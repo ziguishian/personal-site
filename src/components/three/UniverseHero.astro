@@ -1,0 +1,24 @@
+---
+interface Props { mode?: 'hero' | 'map' }
+const { mode = 'hero' } = Astro.props;
+---
+
+<div class="relative h-full min-h-[360px] w-full overflow-visible" data-universe-root data-mode={mode}>
+  <canvas class="absolute inset-0 block h-full w-full bg-transparent" data-universe-canvas aria-label="Animated universe"></canvas>
+  <noscript>
+    <div class="grid h-full place-items-center border hairline">
+      <span>Explore My Universe</span>
+    </div>
+  </noscript>
+</div>
+
+<script>
+  import { createOrbitalSystem } from './OrbitalSystem';
+  const roots = document.querySelectorAll<HTMLElement>('[data-universe-root]');
+  roots.forEach((root) => {
+    const canvas = root.querySelector<HTMLCanvasElement>('[data-universe-canvas]');
+    if (!canvas) return;
+    const universe = createOrbitalSystem(canvas, { mode: root.dataset.mode === 'map' ? 'map' : 'hero' });
+    window.addEventListener('astro:before-swap', () => universe.destroy(), { once: true });
+  });
+</script>

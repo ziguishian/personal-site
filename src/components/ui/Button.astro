@@ -1,0 +1,10 @@
+---
+import { ArrowRight } from 'lucide-astro';
+interface Props { href: string; label: string }
+const { href, label } = Astro.props;
+---
+
+<a href={href} class="focus-ring inline-flex items-center gap-6 border-b border-current pb-1 text-sm uppercase tracking-[0.08em] transition-opacity hover:opacity-55">
+  <span>{label}</span>
+  <ArrowRight size={28} strokeWidth={1.35} />
+</a>

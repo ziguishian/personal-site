@@ -1,0 +1,11 @@
+---
+import { switchLangPath, type Lang } from '@/utils/i18n';
+interface Props { lang: Lang; pathname: string }
+const { lang, pathname } = Astro.props;
+---
+
+<div class="flex items-center gap-2 text-xs uppercase tracking-[0.14em]">
+  <a class:list={['focus-ring', lang === 'zh' ? 'text-text' : 'text-muted']} href={switchLangPath(pathname, 'zh')}>zh</a>
+  <span class="text-muted">/</span>
+  <a class:list={['focus-ring', lang === 'en' ? 'text-text' : 'text-muted']} href={switchLangPath(pathname, 'en')}>en</a>
+</div>

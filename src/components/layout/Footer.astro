@@ -1,0 +1,46 @@
+---
+import { ArrowRight, ArrowUp, BookOpenText, Clapperboard, Github, MessageCircle, PlaySquare } from 'lucide-astro';
+import UniverseHero from '@/components/three/UniverseHero.astro';
+import { t, type Lang } from '@/utils/i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+---
+
+<footer class="site-footer relative mt-24 w-full overflow-hidden border-t hairline">
+  <div class="footer-orbital pointer-events-none absolute inset-y-8 right-[-28vw] z-0 w-[74vw] opacity-35 md:right-[-18vw] md:w-[58vw]">
+    <UniverseHero />
+  </div>
+  <div class="site-shell relative z-10 py-20 md:py-24">
+    <div class="grid gap-12 md:grid-cols-3 md:divide-x md:divide-[color:var(--border)]">
+      <div class="space-y-10">
+        <div class="grid h-20 w-20 place-items-center rounded-full border hairline">
+          <span class="relative h-11 w-px bg-text before:absolute before:left-1/2 before:top-1/2 before:h-4 before:w-4 before:-translate-x-1/2 before:-translate-y-1/2 before:rounded-full before:bg-text"></span>
+        </div>
+        <p class="max-w-xs text-2xl leading-relaxed text-[color:color-mix(in_srgb,var(--text)_84%,var(--muted))]">{t(lang, 'footerLine')}</p>
+        <p class="text-3xl font-light italic tracking-[-0.02em] text-[#d9bd73]">Zi Gui Shi An</p>
+      </div>
+      <div class="space-y-8 md:pl-20">
+        <h2 class="text-2xl">{t(lang, 'findMe')}</h2>
+        <a class="footer-social-link" href="https://www.xiaohongshu.com/user/profile/5ff14d650000000001006504" target="_blank" rel="noreferrer"><span class="icon-bubble"><BookOpenText size={17} strokeWidth={1.45} /></span>{lang === 'zh' ? '小红书 / 子圭时安' : 'Xiaohongshu / Zi Gui Shi An'}</a>
+        <a class="footer-social-link" href="https://www.douyin.com/user/MS4wLjABAAAAdpfqS4XH2ovYBFqavnRnjCT6AYYE8TwWsfrjoHRvF74" target="_blank" rel="noreferrer"><span class="icon-bubble"><Clapperboard size={17} strokeWidth={1.45} /></span>{lang === 'zh' ? '抖音 / 子圭时安' : 'Douyin / Zi Gui Shi An'}</a>
+        <a class="footer-social-link" href="https://space.bilibili.com/618506693" target="_blank" rel="noreferrer"><span class="icon-bubble"><PlaySquare size={17} strokeWidth={1.45} /></span>Bilibili / 子圭时安</a>
+        <a class="footer-social-link" href="https://github.com/ziguishian" target="_blank" rel="noreferrer"><span class="icon-bubble"><Github size={17} strokeWidth={1.45} /></span>GitHub / ziguishian</a>
+      </div>
+      <div id="wechat-contact" class="space-y-10 md:pl-20">
+        <h2 class="text-2xl">{t(lang, 'contact')}</h2>
+        <p class="flex items-center gap-4 text-xl"><span class="icon-bubble"><MessageCircle size={17} strokeWidth={1.45} /></span>{lang === 'zh' ? '微信 / ziguishian' : 'WeChat / ziguishian'}</p>
+        <p class="max-w-sm text-xl leading-relaxed text-muted">{t(lang, 'footerContactLine')}</p>
+        <a class="grid h-24 w-24 place-items-center rounded-full border hairline transition-colors hover:bg-text hover:text-bg" href="#wechat-contact" aria-label="WeChat ziguishian">
+          <ArrowRight size={36} />
+        </a>
+      </div>
+    </div>
+    <div class="mt-20 flex flex-col justify-between gap-6 border-t pt-8 text-sm text-muted hairline md:flex-row">
+      <p class="flex flex-wrap gap-x-4 gap-y-2">
+        <span>© 2026 Zi Gui Shi An. All rights reserved.</span>
+        <a class="transition-opacity hover:opacity-60" href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer">陇ICP备2026003061号-1</a>
+      </p>
+      <a class="flex items-center gap-4 uppercase tracking-[0.18em]" href="#top">{t(lang, 'backToTop')} <ArrowUp size={16} /></a>
+    </div>
+  </div>
+</footer>

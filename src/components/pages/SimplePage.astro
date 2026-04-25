@@ -1,0 +1,181 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import UniverseHero from '@/components/three/UniverseHero.astro';
+import LiveCard from '@/components/ui/LiveCard.astro';
+import { t, type Lang, withLang } from '@/utils/i18n';
+
+interface Props { lang: Lang; page: 'about' | 'live' | 'lab' | 'system' | 'manifesto' | 'universe' }
+const { lang, page } = Astro.props;
+const titleMap = {
+  about: t(lang, 'aboutTitle'),
+  live: t(lang, 'liveTitle'),
+  lab: t(lang, 'labTitle'),
+  system: t(lang, 'systemTitle'),
+  manifesto: t(lang, 'manifesto'),
+  universe: t(lang, 'universeTitle')
+};
+const identities = lang === 'zh'
+  ? ['00后创业者', '极客设计师', 'AIGC 探索者', '工业设计 / 全栈开发']
+  : ['Gen-Z Entrepreneur', 'Geek Designer', 'AIGC Explorer', 'Industrial Design / Full-Stack'];
+const capabilities = lang === 'zh'
+  ? ['AI & 神经网络', 'Vue / Node.js / Java', 'Figma / Rhino / Adobe CC', '产品从 0 到 1', '团队管理', 'C2M 制造探索']
+  : ['AI & Neural Networks', 'Vue / Node.js / Java', 'Figma / Rhino / Adobe CC', '0-to-1 Product Building', 'Team Leadership', 'C2M Manufacturing'];
+const supplies = lang === 'zh'
+  ? ['阅读', 'Coding', '写作', '看电影', '喝茶', '火星移民', '喜欢独处']
+  : ['Reading', 'Coding', 'Writing', 'Cinema', 'Tea', 'Mars Migration', 'Solitude'];
+const timeline = lang === 'zh'
+  ? [
+      ['2015', '14岁开始自学编程，用 Java 建立对逻辑世界的最初认知。'],
+      ['2018', '17岁通过产品化变现，完成从需求分析到商业闭环的第一次验证。'],
+      ['2019', '18岁步入社会，随后前往北京开启 Java 开发工程师职业生涯。'],
+      ['2020', '19岁首次创业，创办渡阡科技，打造灵活用工平台 Freeworkers。'],
+      ['2021', '以社会考生身份参加高考，攻读工业设计，将技术底色与设计美学结合。'],
+      ['2022', '获得 CSDN 软件精英挑战赛全国二等奖，并在创业竞赛和内容创作中持续验证。'],
+      ['2023', '入职字节跳动从事社区类 APP 前端开发，成为国内首批 AI 应用层探索者之一。'],
+      ['2024', '担任灵极科技 CTO，负责 AI 应用层研发，推进语音交互生图产品。'],
+      ['2025', '创办灵矩绘境，将 AIGC 与 C2M 制造结合，让灵感成为生活实物。']
+    ]
+  : [
+      ['2015', 'Started self-learning programming at 14 and built an early sense of logic through Java.'],
+      ['2018', 'Validated product monetization at 17 and completed the first demand-to-business loop.'],
+      ['2019', 'Entered society at 18, then moved to Beijing to begin a Java developer career.'],
+      ['2020', 'Founded Duqian Technology at 19 and built Freeworkers, a flexible work platform.'],
+      ['2021', 'Returned to school through the national exam and studied Industrial Design.'],
+      ['2022', 'Won national second prize in the CSDN Software Elite Challenge and kept testing startup ideas.'],
+      ['2023', 'Joined ByteDance for community-app frontend work and explored early AI application products.'],
+      ['2024', 'Served as CTO of Lingji Technology and led AI application-layer product development.'],
+      ['2025', 'Founded Lingju Vision, combining AIGC and C2M manufacturing to turn inspiration into objects.']
+    ];
+---
+
+<BaseLayout lang={lang} title={titleMap[page]}>
+  {page === 'universe' && (
+    <section class="relative min-h-screen pt-24">
+      <div class="absolute inset-0 pt-20"><UniverseHero mode="map" /></div>
+      <div class="site-shell relative z-10 grid min-h-[calc(100vh-6rem)] place-items-center pb-20 pt-4 text-center md:pt-0">
+        <div class="mx-auto w-full max-w-5xl -translate-y-8 md:-translate-y-10">
+          <h1 class="text-[clamp(4rem,9vw,9rem)] font-normal leading-[0.9]">{t(lang, 'universeTitle')}</h1>
+          <p class="mt-10 text-2xl leading-10 text-muted">{t(lang, 'universeSubtitle')}</p>
+          <div class="mx-auto mt-12 grid w-full max-w-4xl gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {['works', 'thinking', 'live', 'about', 'lab', 'system', 'manifesto'].map((item) => (
+              <a class="whitespace-nowrap border px-6 py-5 text-lg hairline transition-colors hover:bg-text hover:text-bg lg:text-xl" href={withLang(`/${item}`, lang)}>{t(lang, item as any) || item}</a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  {page === 'about' && (
+    <section class="site-shell pb-28 pt-36">
+      <p class="mb-8 text-sm uppercase tracking-[0.18em] text-muted">{t(lang, 'aboutEyebrow')}</p>
+      <h1 class="text-[clamp(4rem,9vw,9rem)] font-normal leading-[0.9]">{t(lang, 'aboutTitle')}</h1>
+      <div class="mt-16 grid gap-12 lg:grid-cols-[0.55fr_0.45fr]">
+        <img src="/images/about/portrait.svg" alt="Zi Gui Shi An" class="aspect-[4/3] w-full object-cover" />
+        <div class="space-y-10 text-xl leading-10">
+          <p>{t(lang, 'aboutNarrative')}</p>
+          <p class="text-muted">
+            {lang === 'zh'
+              ? '中文名：师健鑫。英文名：Alexi / Alex Shi。浙江，人工智能方向。长期相信：火星移民终将实现，AGI 将放大人类创造力。'
+              : 'Chinese name: Shi Jianxin. English name: Alexi / Alex Shi. Based in Zhejiang, focused on artificial intelligence. I believe AGI will amplify human creativity and Mars migration will eventually happen.'}
+          </p>
+          <div class="grid gap-4 sm:grid-cols-2">
+            {identities.map((item) => <div class="border p-6 hairline">{item}</div>)}
+          </div>
+          <div>
+            <p class="mb-4 text-sm uppercase tracking-[0.16em] text-muted">{lang === 'zh' ? '当前状态' : 'Status'}</p>
+            <div class="space-y-3 text-base leading-8 text-[color:color-mix(in_srgb,var(--text)_82%,var(--muted))]">
+              <p>{lang === 'zh' ? '[Building] 灵矩绘境 · 探索艺术与 AI 的边界' : '[Building] Lingju Vision · exploring the edge of art and AI'}</p>
+              <p>{lang === 'zh' ? '[Incubating] 超级个体 IP「子圭时安」的自我迭代' : '[Incubating] Zi Gui Shi An as a personal IP'}</p>
+              <p>{lang === 'zh' ? '[Thinking] 人类文明、AGI、星际探索与长期主义' : '[Thinking] Human civilization, AGI, space exploration and long-termism'}</p>
+            </div>
+          </div>
+          <div>
+            <p class="mb-4 text-sm uppercase tracking-[0.16em] text-muted">{lang === 'zh' ? '能力矩阵' : 'Capability Matrix'}</p>
+            <div class="flex flex-wrap gap-2">
+              {capabilities.map((item) => <span class="border px-3 py-2 text-sm text-muted hairline">{item}</span>)}
+            </div>
+          </div>
+          <div>
+            <p class="mb-4 text-sm uppercase tracking-[0.16em] text-muted">{lang === 'zh' ? '精神补给：代码之外' : 'Beyond Code'}</p>
+            <div class="flex flex-wrap gap-2">
+              {supplies.map((item) => <span class="border px-3 py-2 text-sm text-muted hairline">{item}</span>)}
+            </div>
+          </div>
+          <a class="inline-flex border-b pb-1 uppercase tracking-[0.12em]" href="#wechat-contact">{t(lang, 'contactCta')}</a>
+        </div>
+      </div>
+      <div class="mt-24 border-t pt-14 hairline">
+        <p class="mb-10 text-sm uppercase tracking-[0.18em] text-muted">{lang === 'zh' ? '个人履历 / Timeline' : 'Timeline'}</p>
+        <ol class="grid gap-0">
+          {timeline.map(([year, text]) => (
+            <li class="grid gap-6 border-t py-7 hairline md:grid-cols-[0.18fr_1fr]">
+              <span class="text-2xl text-muted">{year}</span>
+              <p class="max-w-3xl text-xl leading-9">{text}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  )}
+
+  {page === 'live' && (
+    <section class="site-shell pb-28 pt-36" data-runtime-live data-lang={lang}>
+      <h1 class="text-[clamp(4rem,9vw,9rem)] font-normal leading-[0.9]">{t(lang, 'liveTitle')}</h1>
+      <div class="mt-16 grid gap-5 md:grid-cols-4">
+        <LiveCard title={t(lang, 'building')} value={t(lang, 'liveBuildingValue')} progress={65} progressLabel={t(lang, 'progress')} />
+        <LiveCard icon="circle" title={lang === 'zh' ? '孵化中' : 'Incubating'} value={lang === 'zh' ? '超级个体 IP' : 'Personal IP'} />
+        <LiveCard icon="sparkle" title={lang === 'zh' ? '思考中' : 'Thinking'} value={lang === 'zh' ? '人类文明' : 'Human Civilization'} />
+        <LiveCard icon="users" title={lang === 'zh' ? '微信' : 'WeChat'} value="ziguishian" />
+      </div>
+      <div class="mt-16 grid gap-6" data-runtime-content></div>
+    </section>
+  )}
+
+  {page === 'lab' && (
+    <section class="site-shell pb-28 pt-36" data-runtime-lab data-lang={lang}>
+      <h1 class="text-[clamp(4rem,9vw,9rem)] font-normal leading-[0.9]">{t(lang, 'labTitle')}</h1>
+      <div class="mt-16" data-runtime-content></div>
+    </section>
+  )}
+
+  {page === 'system' && (
+    <section class="site-shell pb-28 pt-36">
+      <h1 class="text-[clamp(4rem,9vw,9rem)] font-normal leading-[0.9]">{titleMap.system}</h1>
+      <div class="mt-20 grid gap-5 md:grid-cols-4">
+        {(lang === 'zh'
+          ? ['知行合一', 'AI 原生', '成长重于成功', '少即是多']
+          : ['Knowledge In Action', 'AI Native', 'Growth Over Success', 'Less But Better']
+        ).map((item, index) => (
+          <div class="relative min-h-72 border p-8 hairline">
+            <span class="text-muted">{String(index + 1).padStart(2, '0')}</span>
+            <h2 class="mt-20 text-3xl">{item}</h2>
+            <div class="absolute bottom-8 left-8 right-8 h-px bg-text/30"></div>
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {page === 'manifesto' && (
+    <section class="site-shell grid min-h-screen place-items-center pt-24 text-center">
+      <div class="mx-auto max-w-5xl">
+        <p class="grid gap-5 text-[clamp(2rem,5.2vw,5rem)] font-normal leading-[1.18] tracking-[-0.02em]">
+          {(lang === 'zh'
+            ? ['让我们一起加速 AGI 的实现', '让劳作归于算法', '让灵魂奔向星辰']
+            : ['Accelerate AGI.', 'Let labor return to algorithms.', 'Let the soul run toward the stars.']
+          ).map((line) => <span>{line}</span>)}
+        </p>
+      </div>
+    </section>
+  )}
+  <script>
+    import { mountRuntimeLab, mountRuntimeLive } from '@/utils/runtimeContent';
+    document.querySelectorAll<HTMLElement>('[data-runtime-live]').forEach((root) => {
+      mountRuntimeLive(root);
+    });
+    document.querySelectorAll<HTMLElement>('[data-runtime-lab]').forEach((root) => {
+      mountRuntimeLab(root);
+    });
+  </script>
+</BaseLayout>

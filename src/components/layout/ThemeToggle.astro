@@ -1,0 +1,42 @@
+---
+import { Monitor, Moon, Sun } from 'lucide-astro';
+const options = [
+  { value: 'light', label: 'Light', Icon: Sun },
+  { value: 'dark', label: 'Dark', Icon: Moon },
+  { value: 'system', label: 'System', Icon: Monitor }
+];
+---
+
+<div class="flex rounded-full border p-1 hairline" role="group" aria-label="Theme">
+  {options.map(({ value, label, Icon }) => (
+    <button class="focus-ring grid h-8 w-8 place-items-center rounded-full text-muted transition-colors hover:text-text data-[active=true]:bg-text data-[active=true]:text-bg" data-theme-choice={value} aria-label={label}>
+      <Icon size={15} strokeWidth={1.45} />
+    </button>
+  ))}
+</div>
+
+<script>
+  const storageKey = 'zgs-theme';
+  const choices = document.querySelectorAll<HTMLElement>('[data-theme-choice]');
+  const apply = (preference: string) => {
+    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const resolved = preference === 'system' ? (systemDark ? 'dark' : 'light') : preference;
+    document.documentElement.dataset.theme = resolved;
+    document.documentElement.dataset.themePreference = preference;
+    choices.forEach((choice) => {
+      choice.dataset.active = String(choice.dataset.themeChoice === preference);
+    });
+    window.dispatchEvent(new CustomEvent('themechange', { detail: { theme: resolved, preference } }));
+  };
+  choices.forEach((choice) => {
+    choice.addEventListener('click', () => {
+      const preference = choice.dataset.themeChoice || 'system';
+      localStorage.setItem(storageKey, preference);
+      apply(preference);
+    });
+  });
+  apply(localStorage.getItem(storageKey) || 'system');
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    if ((localStorage.getItem(storageKey) || 'system') === 'system') apply('system');
+  });
+</script>

@@ -1,0 +1,12 @@
+---
+import ArticleLayout from '@/layouts/ArticleLayout.astro';
+import { getCollection } from 'astro:content';
+import { contentSlug } from '@/utils/content';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('thinking', ({ data }) => data.lang === 'en' && !data.draft);
+  return entries.map((entry) => ({ params: { slug: contentSlug(entry) }, props: { entry } }));
+}
+const { entry } = Astro.props;
+---
+<ArticleLayout entry={entry} lang="en" />

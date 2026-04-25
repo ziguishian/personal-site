@@ -1,0 +1,38 @@
+---
+title: "时安 AI 助手"
+slug: "shian-ai"
+lang: "zh"
+description: "你的第二大脑，知识管理与创作的智能伙伴。"
+date: "2026-04-18"
+cover: "/images/works/shian-ai/cover.svg"
+category: "AI Product"
+tags: ["AI Copilot", "Knowledge"]
+status: "building"
+progress: 58
+featured: true
+draft: false
+role: "Product Designer / Developer"
+year: "2026"
+---
+
+## Context / 为什么做
+
+知识管理不应该停留在收藏和检索，而应该成为能主动参与创作的智能系统。
+
+## Process / 如何做
+
+时安 AI 助手围绕个人知识库、长期记忆、任务上下文和写作输出构建。
+
+## System / 系统结构
+
+![时安 AI 助手界面示意](/images/works/shian-ai/cover.svg)
+
+它把输入、理解、记忆和输出分成独立模块，使每个模块都能持续进化。
+
+## Result / 结果
+
+当前完成产品原型和核心体验验证。
+
+## Reflection / 反思
+
+第二大脑的价值在于让人更清醒，而不是更依赖工具。

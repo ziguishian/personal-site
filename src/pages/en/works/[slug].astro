@@ -1,0 +1,12 @@
+---
+import WorkLayout from '@/layouts/WorkLayout.astro';
+import { getCollection } from 'astro:content';
+import { contentSlug } from '@/utils/content';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('works', ({ data }) => data.lang === 'en' && !data.draft);
+  return entries.map((entry, index) => ({ params: { slug: contentSlug(entry) }, props: { entry, next: entries[index + 1] ?? entries[0] } }));
+}
+const { entry, next } = Astro.props;
+---
+<WorkLayout entry={entry} next={next} lang="en" />
