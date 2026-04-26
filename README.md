@@ -380,4 +380,5 @@ dist/
 
 - [动态内容更新手册](./docs/RUNTIME_CONTENT_UPDATE.md)
 - [部署与维护手册](./docs/DEPLOYMENT_AND_MAINTENANCE.md)
+- [图片替换手册](./docs/IMAGE_REPLACEMENT_GUIDE.md)
 - [内容更新手册](./CONTENT_UPDATE_GUIDE.md)

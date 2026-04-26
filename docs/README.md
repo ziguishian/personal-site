@@ -13,7 +13,10 @@
 3. [部署与维护手册](./DEPLOYMENT_AND_MAINTENANCE.md)
    详细说明构建、部署、错误页映射、OSS/CDN、缓存策略和上线检查。
 
-4. [内容更新手册](../CONTENT_UPDATE_GUIDE.md)
+4. [图片替换手册](./IMAGE_REPLACEMENT_GUIDE.md)
+   说明首页、作品、文章、关于我、OG 分享图、实验室等所有图片在哪里替换。
+
+5. [内容更新手册](../CONTENT_UPDATE_GUIDE.md)
    原有内容系统说明，保留为完整参考。
 
 ## 维护原则

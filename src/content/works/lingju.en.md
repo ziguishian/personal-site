@@ -1,41 +1,39 @@
 ---
-title: "Lingju Vision"
-slug: "lingju"
+title: "Freeworkers"
+slug: "freeworkers"
 lang: "en"
-description: "An AI personalized design and physical customization platform that turns inspiration into objects."
-date: "2026-04-24"
-updated: "2026-04-24"
+description: "A flexible work platform I built during my first startup at 19, validating product design, demand analysis and commercial closure."
+date: "2020-09-01"
+updated: "2020-12-01"
 cover: "/images/works/lingju/cover.svg"
 ogImage: "/images/works/lingju/cover.svg"
-category: "AI Product"
-tags: ["AIGC", "Product Design"]
-status: "building"
-progress: 65
+category: "Product"
+tags: ["Startup", "Marketplace", "Validation"]
+status: "launched"
+progress: 100
 featured: true
 draft: false
 role: "Founder / Product Designer / Developer"
-year: "2026"
+year: "2020"
 ---
 
 ## Context
 
-Lingju Vision is an aesthetic lab for turning inspiration into tangible objects.
-
-By combining AIGC and C2M manufacturing, it transforms abstract ideas into physical lifestyle products and gives personal memories a unique carrier.
+Freeworkers was the flexible work platform I built during my first startup at 19. It came from a concrete problem: short-term hiring was full of inefficient communication, while companies and individuals both needed a lighter way to connect.
 
 ## Process
 
-The product starts from real creator and consumer friction: capturing inspiration, generating patterns, previewing products, customizing goods and delivering physical objects.
+I worked through demand research, product flows, job posting, user matching and delivery feedback, completing an early full cycle from product definition to launch.
 
 ## System
 
-![Lingju Vision cover](/images/works/lingju/cover.svg)
+![Freeworkers project visual](/images/works/lingju/cover.svg)
 
-- AI Design for generating high-resolution patterns
-- Product Preview for mapping designs onto real products
-- C2M Pipeline for connecting creativity with manufacturing
-- Build in Public for transparent founder notes
+- Demand Board for short-term work needs
+- Worker Profile for skills, time and pricing
+- Matching Flow around role, timing and location
+- Operation Loop from lead to communication and delivery
 
 ## Reflection
 
-The most important part of an AI product is not capability display. It is helping ordinary people make their inspiration real.
+This was where I moved from “writing code” toward understanding business. A product works when it shortens a real distance in the world.

@@ -1,26 +1,30 @@
 ---
-title: "Shian AI Assistant"
-slug: "shian-ai"
+title: "Xiaoqian ChatGPT Bot"
+slug: "xiaoqian-bot"
 lang: "en"
-description: "A second brain for knowledge management and creative work."
-date: "2026-04-18"
+description: "An early AI application-layer experiment that brought ChatGPT into real conversational and tool workflows, reaching 1,000+ visits in one day."
+date: "2023-04-01"
 cover: "/images/works/shian-ai/cover.svg"
 category: "AI Product"
-tags: ["AI Copilot", "Knowledge"]
-status: "building"
-progress: 58
+tags: ["ChatGPT", "Bot", "AI App"]
+status: "validated"
+progress: 100
 featured: true
 draft: false
-role: "Product Designer / Developer"
-year: "2026"
+role: "Developer / Product Designer"
+year: "2023"
 ---
 
 ## Context
 
-Knowledge management should evolve from storage and retrieval into an intelligent partner for creation.
+When ChatGPT first emerged, I wanted to move model capability out of a single chat window and into real usage scenarios as quickly as possible.
 
 ## System
 
-![Shian AI Assistant interface](/images/works/shian-ai/cover.svg)
+![Xiaoqian ChatGPT Bot interface](/images/works/shian-ai/cover.svg)
 
-Shian AI Assistant is organized around knowledge base, long-term memory, task context and writing output.
+Xiaoqian combined conversational entry, prompt packaging, context management and lightweight tool workflows so users could experience AI with a lower barrier.
+
+## Reflection
+
+The early value of an AI product is not feature count. It is helping a user feel, for the first time, that a real task can be handed to the system.

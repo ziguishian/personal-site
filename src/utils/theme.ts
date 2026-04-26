@@ -9,6 +9,12 @@ export const themeInitScript = `
     document.querySelectorAll('meta[name="theme-color"]').forEach((meta) => {
       meta.setAttribute('content', color);
     });
+    document.querySelector('meta[name="color-scheme"]')?.setAttribute('content', theme === 'dark' ? 'dark light' : 'light dark');
+    document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]')?.setAttribute(
+      'content',
+      theme === 'dark' ? 'black-translucent' : 'default'
+    );
+    root.style.colorScheme = theme;
   };
   const stored = localStorage.getItem(storageKey) || 'system';
   const systemQuery = window.matchMedia('(prefers-color-scheme: dark)');

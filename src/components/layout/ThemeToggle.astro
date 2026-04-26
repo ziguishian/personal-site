@@ -23,6 +23,12 @@ const options = [
     document.querySelectorAll('meta[name="theme-color"]').forEach((meta) => {
       meta.setAttribute('content', color);
     });
+    document.querySelector('meta[name="color-scheme"]')?.setAttribute('content', theme === 'dark' ? 'dark light' : 'light dark');
+    document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]')?.setAttribute(
+      'content',
+      theme === 'dark' ? 'black-translucent' : 'default'
+    );
+    document.documentElement.style.colorScheme = theme;
   };
   const apply = (preference: string) => {
     const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;

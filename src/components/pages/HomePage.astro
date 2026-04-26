@@ -18,13 +18,13 @@ const { lang } = Astro.props;
     <div class="orbital-hero-bg pointer-events-none absolute right-[-54vw] top-28 z-0 block h-[48vh] min-h-[320px] w-[132vw] opacity-[0.34] sm:right-[-32vw] sm:top-20 sm:h-[52vh] sm:w-[112vw] sm:opacity-[0.28] lg:pointer-events-auto lg:bottom-20 lg:left-[19vw] lg:right-[-11vw] lg:top-24 lg:h-auto lg:min-h-0 lg:w-auto lg:opacity-85">
       <UniverseHero />
     </div>
-    <div class="site-shell relative z-10 grid min-h-[calc(100vh-6rem)] items-center lg:items-start lg:pt-[17vh]">
+    <div class="site-shell relative z-10 grid min-h-[calc(100vh-6rem)] items-center lg:items-start lg:pt-[13.5vh]">
       <div class="home-hero-copy max-w-lg pb-[24vh] lg:pb-0">
       <p class="mb-6 text-xs uppercase tracking-[0.12em] text-muted sm:text-sm lg:mb-7">{t(lang, 'heroRole')}</p>
       <h1 class="home-hero-title text-balance text-[clamp(2.85rem,13vw,5rem)] font-normal leading-[0.94] lg:text-[clamp(3.6rem,5.8vw,6.7rem)]">{t(lang, 'heroName')}</h1>
       {lang === 'zh' && <p class="mt-6 text-2xl font-semibold lg:mt-7">— {t(lang, 'heroCnName')} —</p>}
       <p class="mt-8 text-[clamp(1.08rem,4.4vw,1.32rem)] leading-relaxed lg:mt-9 lg:text-[clamp(1.12rem,1.25vw,1.38rem)]">{t(lang, 'heroBelief')}</p>
-      {lang === 'zh' && <p class="mt-5 text-base leading-8 text-muted lg:mt-6 lg:text-lg">{t(lang, 'heroBeliefEn')}</p>}
+      <p class="home-hero-position mt-7 max-w-md text-sm leading-7 text-muted lg:text-base">{t(lang, 'heroPositioning')}</p>
       <div class="mt-12 lg:mt-16"><Button href={withLang('/universe', lang)} label={t(lang, 'explore')} /></div>
       </div>
     </div>
@@ -48,6 +48,29 @@ const { lang } = Astro.props;
         <Button href={withLang('/works', lang)} label={t(lang, 'viewAllWorks')} />
       </div>
       <div class="home-work-grid grid gap-6 md:grid-cols-3" data-home-works></div>
+    </div>
+    <div class="home-work-showcase" aria-label={lang === 'zh' ? '精选项目视觉展示' : 'Selected work visuals'}>
+      <div class="home-work-showcase-intro">
+        <p>{lang === 'zh' ? 'Creation systems' : 'Creation systems'}</p>
+        <h3>{lang === 'zh' ? '三个长期构建的创造系统' : 'Three long-term creation systems'}</h3>
+        <span>{lang === 'zh' ? '创作、知识与个人宇宙' : 'Creation, knowledge and personal universe'}</span>
+      </div>
+      <div class="home-work-showcase-gallery">
+        {[
+          { src: '/images/works/lingju/cover.svg', title: lang === 'zh' ? '灵矩绘境' : 'Lingju Vision', meta: 'AIGC × C2M CREATION SYSTEM' },
+          { src: '/images/works/shian-ai/cover.svg', title: lang === 'zh' ? '时安 AI 助手' : 'Shian AI Assistant', meta: 'PERSONAL AI OPERATING SYSTEM' },
+          { src: '/images/works/compound-practice/cover.svg', title: lang === 'zh' ? '子圭时安数字花园' : 'Zi Gui Shi An Digital Garden', meta: 'WRITING / IP / KNOWLEDGE SYSTEM' }
+        ].map((item, index) => (
+          <figure class="home-work-showcase-item" style={`--i:${index}`} data-showcase-card>
+            <img src={item.src} alt={item.title} loading="lazy" />
+            <figcaption>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <strong>{item.title}</strong>
+              <em>{item.meta}</em>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
     </div>
   </section>
 
@@ -87,6 +110,24 @@ const { lang } = Astro.props;
         ))}
       </ol>
     </div>
+    <div class="home-about-metrics" data-countup-root>
+      {[
+        { value: 5, suffix: '+', label: lang === 'zh' ? '工作年限' : 'Years Building', note: lang === 'zh' ? '从工程、设计到创业实践' : 'Engineering, design and startups' },
+        { value: 12, suffix: '', label: lang === 'zh' ? '荣誉奖项' : 'Honors', note: lang === 'zh' ? '竞赛、创业与专业成长' : 'Competitions and craft growth' },
+        { value: 2000, suffix: '+', label: lang === 'zh' ? '社交媒体粉丝' : 'Social Audience', note: lang === 'zh' ? '记录思考与构建过程' : 'Sharing thoughts and builds' }
+      ].map((metric) => (
+        <article class="home-about-metric">
+          <p><span data-countup data-target={metric.value}>0</span>{metric.suffix}</p>
+          <h3>{metric.label}</h3>
+          <small>{metric.note}</small>
+        </article>
+      ))}
+    </div>
+    <p class="home-about-metric-note">
+      {lang === 'zh'
+        ? '数字来自产品、设计、研发、创业实践与公开内容沉淀；它们不是终点，而是持续构建的刻度。'
+        : 'These numbers come from product, design, engineering, startup practice and public writing. They are markers of a continuing build.'}
+    </p>
   </section>
 
   <section class="home-live home-node-section site-shell section-space border-t hairline" data-scroll-cue>
@@ -95,10 +136,14 @@ const { lang } = Astro.props;
       <Button href={withLang('/live', lang)} label={t(lang, 'viewLive')} />
     </div>
     <div class="grid gap-5 md:grid-cols-4">
-      <LiveCard title={lang === 'zh' ? '构建中的产品' : 'Product'} value={lang === 'zh' ? '时安 AI 助手 2.0' : 'Shian AI Assistant 2.0'} progress={65} progressLabel={t(lang, 'progress')} />
-      <LiveCard icon="circle" title={lang === 'zh' ? '孵化中的 IP' : 'Incubating'} value={lang === 'zh' ? '子圭时安' : 'Zi Gui Shi An'} description={lang === 'zh' ? '超级个体的自我迭代' : 'A personal IP in public'} />
-      <LiveCard icon="users" title={lang === 'zh' ? '创办项目' : 'Founder of'} value={lang === 'zh' ? '渡阡科技 / 灵矩绘境' : 'Duqian Tech / Lingju'} description={lang === 'zh' ? '从产品到制造' : 'Product to manufacturing'} />
-      <LiveCard icon="sparkle" title={lang === 'zh' ? '思考主题' : 'Thinking'} value={lang === 'zh' ? '人类文明' : 'Human Civilization'} description={lang === 'zh' ? 'AI、星际与长期主义' : 'AI, space and long-termism'} />
+      <LiveCard title={lang === 'zh' ? 'Now Building' : 'Now Building'} value={lang === 'zh' ? '时安 AI 助手 2.0' : 'Shian AI Assistant 2.0'} description={lang === 'zh' ? '知识管理与创作伙伴' : 'Knowledge and creation copilot'} progress={65} progressLabel={t(lang, 'progress')} />
+      <LiveCard icon="circle" title={lang === 'zh' ? 'Now Incubating' : 'Now Incubating'} value={lang === 'zh' ? '子圭时安' : 'Zi Gui Shi An'} description={lang === 'zh' ? '超级个体 IP 的自我迭代' : 'A personal IP in public'} />
+      <LiveCard icon="users" title={lang === 'zh' ? 'Founder Of' : 'Founder Of'} value={lang === 'zh' ? '渡阡科技 / 灵矩绘境' : 'Duqian Tech / Lingju'} description={lang === 'zh' ? '从产品到制造' : 'Product to manufacturing'} />
+      <LiveCard icon="sparkle" title={lang === 'zh' ? 'Latest Signal' : 'Latest Signal'} value={lang === 'zh' ? '人类文明' : 'Human Civilization'} description={lang === 'zh' ? 'AI、星际与长期主义' : 'AI, space and long-termism'} />
+    </div>
+    <div class="home-live-cta">
+      <p>{lang === 'zh' ? '如果你也在构建 AI 原生产品，欢迎通过微信 ziguishian 交流。' : 'If you are building AI-native products too, connect with me on WeChat: ziguishian.'}</p>
+      <a href={withLang('/manifesto', lang)}>{lang === 'zh' ? '阅读宣言' : 'Read Manifesto'} →</a>
     </div>
   </section>
   <script>
@@ -106,5 +151,67 @@ const { lang } = Astro.props;
     document.querySelectorAll<HTMLElement>('[data-runtime-home]').forEach((root) => {
       mountRuntimeHome(root);
     });
+
+    const metricRoots = document.querySelectorAll<HTMLElement>('[data-countup-root]');
+    const motionReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const formatValue = (value: number) => new Intl.NumberFormat(document.documentElement.lang.startsWith('zh') ? 'zh-CN' : 'en-US').format(value);
+    const runCountUp = (root: HTMLElement) => {
+      if (root.dataset.counted === 'true') return;
+      root.dataset.counted = 'true';
+      root.querySelectorAll<HTMLElement>('[data-countup]').forEach((node) => {
+        const target = Number(node.dataset.target || 0);
+        if (motionReduced) {
+          node.textContent = formatValue(target);
+          return;
+        }
+        const duration = 1100;
+        const start = performance.now();
+        const tick = (now: number) => {
+          const progress = Math.min(1, (now - start) / duration);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          node.textContent = formatValue(Math.round(target * eased));
+          if (progress < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      });
+    };
+
+    if (metricRoots.length) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            runCountUp(entry.target as HTMLElement);
+            observer.unobserve(entry.target);
+          });
+        },
+        { threshold: 0.35 }
+      );
+      metricRoots.forEach((root) => observer.observe(root));
+    }
+
+    const showcaseCards = Array.from(document.querySelectorAll<HTMLElement>('[data-showcase-card]'));
+    const setupWorkShowcase = () => {
+      if (!showcaseCards.length) return;
+      if (motionReduced) {
+        showcaseCards.forEach((card) => card.classList.add('is-visible'));
+        return;
+      }
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          });
+        },
+        { rootMargin: '-16% 0px -18% 0px', threshold: 0.12 }
+      );
+
+      showcaseCards.forEach((card) => observer.observe(card));
+    };
+
+    setupWorkShowcase();
   </script>
 </BaseLayout>
