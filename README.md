@@ -4,6 +4,11 @@
 
 它不是普通简历页，而是用于展示作品、思考、动态、实验、方法论和个人世界观的静态网站。项目支持中英文、light / dark / system 主题、运行时 Markdown 内容读取、OSS/CDN 图片地址切换、RSS、sitemap 和多种容错页面。
 
+<img width="1590" height="1042" alt="image" src="https://github.com/user-attachments/assets/3b2940de-a51d-456f-8446-0cca33b9264b" />
+<img width="1590" height="1042" alt="image" src="https://github.com/user-attachments/assets/2ce9e86b-87cb-4707-a1a5-11e51e7d6f84" />
+
+
+
 ## 技术栈
 
 - Astro
