@@ -11,7 +11,7 @@ const { Content } = await render(entry);
 ---
 
 <BaseLayout lang={lang as Lang} title={entry.data.seo?.title ?? entry.data.title} description={entry.data.seo?.description ?? entry.data.description} image={entry.data.ogImage ?? entry.data.cover}>
-  <article class="site-shell pb-28 pt-28 lg:pt-[7.5rem]">
+  <article class="site-shell pb-16 pt-28 md:pb-20 lg:pt-[7.5rem]">
     <header class="grid min-h-[52vh] items-center gap-12 lg:min-h-[58vh] lg:grid-cols-[0.78fr_1.22fr]">
       <div>
         <p class="mb-8 text-sm uppercase tracking-[0.2em] text-muted">{entry.data.category}</p>

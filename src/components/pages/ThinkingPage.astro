@@ -7,7 +7,7 @@ const { lang } = Astro.props;
 ---
 
 <BaseLayout lang={lang} title={t(lang, 'thinkingTitle')} description={t(lang, 'thinkingIntro')}>
-  <section class="site-shell pb-28 pt-32 md:pt-36" data-runtime-thinking data-lang={lang} data-base={withLang('/thinking', lang)}>
+  <section class="site-shell pb-16 pt-32 md:pb-20 md:pt-36" data-runtime-thinking data-lang={lang} data-base={withLang('/thinking', lang)}>
     <header>
       <p class="mb-8 text-sm uppercase tracking-[0.18em] text-muted">{t(lang, 'thinkingEyebrow')}</p>
       <h1 class="text-balance text-[clamp(3rem,7.4vw,7rem)] font-normal leading-[0.94]">{t(lang, 'thinkingTitle')}</h1>

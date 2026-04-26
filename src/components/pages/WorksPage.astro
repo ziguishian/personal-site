@@ -7,7 +7,7 @@ const { lang } = Astro.props;
 ---
 
 <BaseLayout lang={lang} title={t(lang, 'worksTitle')} description={t(lang, 'worksIntro')}>
-  <section class="site-shell pb-28 pt-32 md:pt-36" data-runtime-works data-lang={lang} data-base={withLang('/works', lang)}>
+  <section class="site-shell pb-16 pt-32 md:pb-20 md:pt-36" data-runtime-works data-lang={lang} data-base={withLang('/works', lang)}>
     <header data-runtime-list-header>
       <p class="mb-8 text-sm uppercase tracking-[0.18em] text-muted">{t(lang, 'worksEyebrow')}</p>
       <h1 class="text-balance text-[clamp(3.2rem,8vw,8rem)] font-normal leading-[0.9]">{t(lang, 'worksTitle')}</h1>

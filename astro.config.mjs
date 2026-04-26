@@ -2,7 +2,7 @@ import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 
-const site = process.env.PUBLIC_SITE_URL || 'https://ziguishian.com';
+const site = process.env.PUBLIC_SITE_URL || 'https://alexi.tech';
 
 export default defineConfig({
   site,

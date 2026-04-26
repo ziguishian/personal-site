@@ -52,7 +52,7 @@ const timeline = lang === 'zh'
   {page === 'universe' && (
     <section class="relative min-h-screen pt-24">
       <div class="absolute inset-0 pt-20"><UniverseHero mode="map" /></div>
-      <div class="site-shell relative z-10 grid min-h-[calc(100vh-6rem)] place-items-center pb-20 pt-4 text-center md:pt-0">
+      <div class="site-shell relative z-10 grid min-h-[calc(100vh-6rem)] place-items-center pb-10 pt-4 text-center md:pb-12 md:pt-0">
         <div class="mx-auto w-full max-w-5xl -translate-y-8 md:-translate-y-10">
           <h1 class="text-[clamp(4rem,9vw,9rem)] font-normal leading-[0.9]">{t(lang, 'universeTitle')}</h1>
           <p class="mt-10 text-2xl leading-10 text-muted">{t(lang, 'universeSubtitle')}</p>
@@ -67,7 +67,7 @@ const timeline = lang === 'zh'
   )}
 
   {page === 'about' && (
-    <section class="site-shell pb-28 pt-36">
+    <section class="site-shell pb-16 pt-36 md:pb-20">
       <p class="mb-8 text-sm uppercase tracking-[0.18em] text-muted">{t(lang, 'aboutEyebrow')}</p>
       <h1 class="text-[clamp(4rem,9vw,9rem)] font-normal leading-[0.9]">{t(lang, 'aboutTitle')}</h1>
       <div class="mt-16 grid gap-12 lg:grid-cols-[0.55fr_0.45fr]">
@@ -120,7 +120,7 @@ const timeline = lang === 'zh'
   )}
 
   {page === 'live' && (
-    <section class="site-shell pb-28 pt-36" data-runtime-live data-lang={lang}>
+    <section class="site-shell pb-16 pt-36 md:pb-20" data-runtime-live data-lang={lang}>
       <h1 class="text-[clamp(4rem,9vw,9rem)] font-normal leading-[0.9]">{t(lang, 'liveTitle')}</h1>
       <div class="mt-16 grid gap-5 md:grid-cols-4">
         <LiveCard title={t(lang, 'building')} value={t(lang, 'liveBuildingValue')} progress={65} progressLabel={t(lang, 'progress')} />
@@ -133,14 +133,14 @@ const timeline = lang === 'zh'
   )}
 
   {page === 'lab' && (
-    <section class="site-shell pb-28 pt-36" data-runtime-lab data-lang={lang}>
+    <section class="site-shell pb-16 pt-36 md:pb-20" data-runtime-lab data-lang={lang}>
       <h1 class="text-[clamp(4rem,9vw,9rem)] font-normal leading-[0.9]">{t(lang, 'labTitle')}</h1>
       <div class="mt-16" data-runtime-content></div>
     </section>
   )}
 
   {page === 'system' && (
-    <section class="site-shell pb-28 pt-36">
+    <section class="site-shell pb-16 pt-36 md:pb-20">
       <h1 class="text-[clamp(4rem,9vw,9rem)] font-normal leading-[0.9]">{titleMap.system}</h1>
       <div class="mt-20 grid gap-5 md:grid-cols-4">
         {(lang === 'zh'
