@@ -18,11 +18,18 @@ const options = [
 <script>
   const storageKey = 'zgs-theme';
   const choices = document.querySelectorAll<HTMLElement>('[data-theme-choice]');
+  const syncBrowserChrome = (theme: string) => {
+    const color = theme === 'dark' ? '#08090c' : '#f7f6f2';
+    document.querySelectorAll('meta[name="theme-color"]').forEach((meta) => {
+      meta.setAttribute('content', color);
+    });
+  };
   const apply = (preference: string) => {
     const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const resolved = preference === 'system' ? (systemDark ? 'dark' : 'light') : preference;
     document.documentElement.dataset.theme = resolved;
     document.documentElement.dataset.themePreference = preference;
+    syncBrowserChrome(resolved);
     choices.forEach((choice) => {
       choice.dataset.active = String(choice.dataset.themeChoice === preference);
     });

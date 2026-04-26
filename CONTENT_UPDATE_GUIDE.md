@@ -2,6 +2,18 @@
 
 这个项目已经重构为“静态页面骨架 + 运行时内容读取”。页面设计、导航、主题、Three.js 动效仍由 Astro 打包生成；作品、文章、动态、实验室项目从 `/content` 目录读取，所以打包部署后也可以直接更新内容。
 
+如果你只想看“如何新增文章、作品、动态、实验室项目”的详细操作，请优先阅读：
+
+```txt
+docs/RUNTIME_CONTENT_UPDATE.md
+```
+
+如果你想看部署、错误页映射、OSS/CDN、缓存策略，请阅读：
+
+```txt
+docs/DEPLOYMENT_AND_MAINTENANCE.md
+```
+
 ## 一、目录关系
 
 开发环境内容源：
@@ -54,16 +66,18 @@ dist/content/
 
 ## 三、运行时详情 URL
 
-为了让打包后新增内容也可以访问，未来新增作品和文章建议使用：
+为了让打包后新增内容也可以访问，未来新增作品、文章和实验建议使用：
 
 ```txt
 /works?slug=lingju
 /thinking?slug=system-thinking
+/lab?slug=prompt-lab
 /en/works?slug=lingju
 /en/thinking?slug=system-thinking
+/en/lab?slug=prompt-lab
 ```
 
-旧的 `/works/lingju`、`/thinking/system-thinking` 仍然兼容已有内容，但静态站点在打包后不能自动生成新的 `/works/new-slug` 页面，所以新增内容统一用 `?slug=` 更稳。
+旧的 `/works/lingju`、`/thinking/system-thinking`、`/lab/prompt-lab` 仍然兼容已有内容，但静态站点在打包后不能自动生成新的 `/works/new-slug` 页面，所以新增内容统一用 `?slug=` 更稳。
 
 ## 四、新增一篇 Thinking 文章
 
@@ -312,6 +326,19 @@ public/content/lab/index.zh.json
 }
 ```
 
+访问地址：
+
+```txt
+/lab?slug=agent-playground
+```
+
+如果重新打包，已有索引里的 Lab 内容也会生成静态二级页面，例如：
+
+```txt
+/lab/prompt-lab
+/en/lab/prompt-lab
+```
+
 ## 八、正文中插入图片
 
 图片放在：
@@ -480,6 +507,6 @@ npm run content:check
 
 取舍：
 
-- 新增详情页使用 `?slug=`，不是纯 `/works/xxx`。
+- 新增详情页使用 `?slug=`，不是纯 `/works/xxx` 或 `/lab/xxx`。
 - 新增内容不会自动进入构建时生成的 RSS 和 sitemap。
 - 如果你非常重视单篇文章 SEO，建议定期把 `dist/content` 同步回 `public/content` 后重新 build 一次。

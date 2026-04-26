@@ -30,7 +30,9 @@ const assetBase = import.meta.env.PUBLIC_ASSET_BASE_URL || '';
 <html lang={lang === 'zh' ? 'zh-CN' : 'en-US'} data-asset-base={assetBase}>
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#f7f6f2" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <script is:inline set:html={themeInitScript}></script>
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -167,6 +169,58 @@ const assetBase = import.meta.env.PUBLIC_ASSET_BASE_URL || '';
         window.addEventListener('scroll', updateProgress, { passive: true });
         window.addEventListener('resize', updateProgress);
       }
+
+      const enhanceCodeBlocks = (root: ParentNode = document) => {
+        const isZh = document.documentElement.lang.toLowerCase().startsWith('zh');
+        root.querySelectorAll('pre').forEach((pre) => {
+          const block = pre as HTMLPreElement;
+          if (block.dataset.codeEnhanced === 'true') return;
+          const code = block.querySelector('code');
+          if (!code) return;
+
+          block.dataset.codeEnhanced = 'true';
+          const language = block.dataset.language || [...code.classList]
+            .find((className) => className.startsWith('language-'))
+            ?.replace('language-', '');
+          if (language) block.dataset.codeLanguage = language.toUpperCase();
+
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'code-copy-button';
+          button.setAttribute('aria-label', isZh ? '复制代码' : 'Copy code');
+          button.textContent = isZh ? '复制' : 'Copy';
+          button.addEventListener('click', async () => {
+            const text = code.textContent || '';
+            try {
+              await navigator.clipboard.writeText(text);
+              button.dataset.copied = 'true';
+              button.textContent = isZh ? '已复制' : 'Copied';
+              window.setTimeout(() => {
+                button.dataset.copied = 'false';
+                button.textContent = isZh ? '复制' : 'Copy';
+              }, 1500);
+            } catch {
+              button.textContent = isZh ? '复制失败' : 'Failed';
+              window.setTimeout(() => {
+                button.textContent = isZh ? '复制' : 'Copy';
+              }, 1500);
+            }
+          });
+
+          block.append(button);
+        });
+      };
+
+      enhanceCodeBlocks();
+      const codeObserver = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          mutation.addedNodes.forEach((node) => {
+            if (node instanceof Element) enhanceCodeBlocks(node);
+          });
+        });
+      });
+      codeObserver.observe(document.body, { childList: true, subtree: true });
+      window.addEventListener('pagehide', () => codeObserver.disconnect(), { once: true });
     </script>
   </body>
 </html>

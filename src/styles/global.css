@@ -152,41 +152,179 @@
   .prose-site :where(pre) {
     position: relative;
     overflow: auto;
-    border: 1px solid color-mix(in srgb, var(--text) 15%, transparent);
-    border-radius: 0;
+    border: 1px solid color-mix(in srgb, var(--text) 13%, transparent);
+    border-radius: 10px;
     background:
-      linear-gradient(180deg, color-mix(in srgb, var(--surface) 92%, var(--text) 5%), color-mix(in srgb, var(--surface) 82%, var(--text) 8%));
-    padding: 3.1rem 1.25rem 1.35rem;
-    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 7%, transparent);
+      linear-gradient(180deg, color-mix(in srgb, var(--surface) 88%, #fff 8%), color-mix(in srgb, var(--surface) 78%, var(--text) 7%));
+    padding: 3.35rem 1.25rem 1.35rem;
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, #fff 30%, transparent),
+      0 18px 52px rgb(0 0 0 / 0.07);
+    scrollbar-width: thin;
   }
 
   .prose-site :where(pre)::before {
-    content: 'CODE';
+    content: '';
     position: absolute;
-    top: 1rem;
+    top: 1.14rem;
     left: 1.25rem;
-    color: var(--muted);
-    font-size: 0.66rem;
-    letter-spacing: 0.16em;
+    width: 2.7rem;
+    height: 0.72rem;
+    background:
+      radial-gradient(circle at 0.36rem 50%, #ff5f57 0 0.28rem, transparent 0.3rem),
+      radial-gradient(circle at 1.36rem 50%, #ffbd2e 0 0.28rem, transparent 0.3rem),
+      radial-gradient(circle at 2.36rem 50%, #28c840 0 0.28rem, transparent 0.3rem);
   }
 
   .prose-site :where(pre)::after {
-    content: '';
+    content: attr(data-code-language);
     position: absolute;
-    top: 1.18rem;
-    right: 1.25rem;
-    width: 3.6rem;
-    height: 1px;
-    background: color-mix(in srgb, var(--text) 18%, transparent);
+    top: 1.04rem;
+    left: 5rem;
+    max-width: calc(100% - 11rem);
+    overflow: hidden;
+    color: color-mix(in srgb, var(--muted) 78%, var(--text) 22%);
+    font-size: 0.66rem;
+    letter-spacing: 0.18em;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
   }
 
   .prose-site :where(pre code) {
     border: 0;
     padding: 0;
     background: transparent;
-    color: color-mix(in srgb, var(--text) 88%, var(--muted));
+    color: #1f2937;
     font-size: 0.92rem;
     line-height: 1.8;
+  }
+
+  :root[data-theme='dark'] .prose-site :where(pre),
+  :root[data-theme='dark'] .runtime-prose pre {
+    border-color: rgb(255 255 255 / 0.12);
+    background:
+      linear-gradient(180deg, rgb(22 24 31 / 0.96), rgb(11 12 16 / 0.96));
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.08),
+      0 22px 64px rgb(0 0 0 / 0.32);
+  }
+
+  :root[data-theme='dark'] .prose-site :where(pre code),
+  :root[data-theme='dark'] .runtime-prose pre code {
+    color: #d6deeb;
+  }
+
+  .code-copy-button {
+    position: absolute;
+    top: 0.72rem;
+    right: 0.82rem;
+    z-index: 2;
+    min-width: 3.55rem;
+    height: 1.8rem;
+    border: 1px solid color-mix(in srgb, var(--text) 12%, transparent);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--surface) 72%, transparent);
+    color: color-mix(in srgb, var(--text) 68%, var(--muted));
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-transform: uppercase;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    transition:
+      border-color 180ms ease,
+      background 180ms ease,
+      color 180ms ease,
+      transform 180ms ease;
+  }
+
+  .code-copy-button:hover {
+    border-color: color-mix(in srgb, var(--text) 24%, transparent);
+    background: color-mix(in srgb, var(--surface) 92%, var(--text) 4%);
+    color: var(--text);
+    transform: translateY(-1px);
+  }
+
+  .code-copy-button[data-copied='true'] {
+    border-color: color-mix(in srgb, #047857 34%, transparent);
+    color: #047857;
+  }
+
+  :root[data-theme='dark'] .code-copy-button {
+    border-color: rgb(255 255 255 / 0.14);
+    background: rgb(255 255 255 / 0.075);
+    color: rgb(255 255 255 / 0.68);
+  }
+
+  :root[data-theme='dark'] .code-copy-button:hover {
+    border-color: rgb(255 255 255 / 0.26);
+    background: rgb(255 255 255 / 0.12);
+    color: #fff;
+  }
+
+  .prose-site :where(pre code span:not(.code-token)),
+  .runtime-prose pre code span:not(.code-token) {
+    color: inherit;
+  }
+
+  .prose-site :where(pre code span[style]) {
+    color: var(--shiki-light, currentColor);
+  }
+
+  :root[data-theme='dark'] .prose-site :where(pre code span[style]) {
+    color: var(--shiki-dark, var(--shiki-light, currentColor));
+  }
+
+  .code-token-comment {
+    color: #7c8491;
+    font-style: italic;
+  }
+
+  .code-token-keyword,
+  .code-token-tag {
+    color: #7c3aed;
+  }
+
+  .code-token-string {
+    color: #0f766e;
+  }
+
+  .code-token-number {
+    color: #b45309;
+  }
+
+  .code-token-function {
+    color: #2563eb;
+  }
+
+  .code-token-attr {
+    color: #be123c;
+  }
+
+  :root[data-theme='dark'] .code-token-keyword,
+  :root[data-theme='dark'] .code-token-tag {
+    color: #c792ea;
+  }
+
+  :root[data-theme='dark'] .code-token-string {
+    color: #ecc48d;
+  }
+
+  :root[data-theme='dark'] .code-token-number {
+    color: #f78c6c;
+  }
+
+  :root[data-theme='dark'] .code-token-function {
+    color: #82aaff;
+  }
+
+  :root[data-theme='dark'] .code-token-attr {
+    color: #addb67;
+  }
+
+  :root[data-theme='dark'] .code-token-comment {
+    color: #637777;
   }
 
   .scroll-reveal {
@@ -223,6 +361,14 @@
       background-color 240ms ease,
       box-shadow 240ms ease,
       transform 240ms ease;
+  }
+
+  @media (min-width: 768px) {
+    .site-header {
+      background: color-mix(in srgb, var(--bg) 82%, transparent);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+    }
   }
 
   .site-header.is-scrolled {
@@ -520,7 +666,167 @@
     }
   }
 
+  @media (min-width: 1024px) {
+    .home-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0 auto 0 0;
+      z-index: 1;
+      width: min(56vw, 58rem);
+      background: linear-gradient(
+        90deg,
+        var(--bg) 0%,
+        color-mix(in srgb, var(--bg) 96%, transparent) 34%,
+        color-mix(in srgb, var(--bg) 68%, transparent) 58%,
+        transparent 100%
+      );
+      pointer-events: none;
+    }
+
+    .orbital-hero-bg {
+      -webkit-mask-image:
+        linear-gradient(180deg, transparent 0%, rgb(0 0 0 / 0.08) 7%, rgb(0 0 0 / 0.82) 18%, #000 30%, #000 84%, transparent 100%);
+      mask-image:
+        linear-gradient(180deg, transparent 0%, rgb(0 0 0 / 0.08) 7%, rgb(0 0 0 / 0.82) 18%, #000 30%, #000 84%, transparent 100%);
+    }
+
+    .orbital-hero-bg [data-universe-root] {
+      transform: translateY(0.4rem) scale(1.08);
+      transform-origin: center;
+    }
+  }
+
   @media (max-width: 767px) {
+    .site-header {
+      top: 0;
+      border-color: transparent;
+      background: transparent;
+      backdrop-filter: none;
+      pointer-events: none;
+      box-shadow: none;
+    }
+
+    .site-header.is-scrolled {
+      border-color: transparent;
+      box-shadow: none;
+    }
+
+    .site-header.is-menu-open {
+      pointer-events: auto;
+    }
+
+    .site-header .site-shell {
+      height: calc(3.75rem + env(safe-area-inset-top));
+      padding-top: env(safe-area-inset-top);
+      padding-inline: 1rem;
+      background: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+
+    .site-header a[aria-label='Zi Gui Shi An home'] {
+      pointer-events: auto;
+    }
+
+    .site-header a[aria-label='Zi Gui Shi An home'] {
+      min-height: 2.55rem;
+      border-radius: 999px;
+      padding: 0.55rem 0.78rem;
+      gap: 0.68rem;
+      transform: translate3d(0, 0, 0);
+      opacity: 1;
+      transition:
+        opacity 260ms ease,
+        transform 260ms ease,
+        filter 260ms ease;
+      will-change: opacity, transform;
+    }
+
+    .site-header.is-brand-hidden:not(.is-menu-open) a[aria-label='Zi Gui Shi An home'] {
+      pointer-events: none;
+      transform: translate3d(0, -0.85rem, 0);
+      opacity: 0;
+      filter: blur(2px);
+    }
+
+    .site-header a[aria-label='Zi Gui Shi An home'] > span:first-child {
+      width: 1.72rem;
+      height: 1.72rem;
+    }
+
+    .site-header a[aria-label='Zi Gui Shi An home'] > span:first-child span {
+      height: 1.05rem;
+    }
+
+    .site-header a[aria-label='Zi Gui Shi An home'] > span:last-child {
+      font-size: 0.76rem;
+      letter-spacing: 0.15em;
+    }
+
+    .site-header [data-menu-button] {
+      pointer-events: auto;
+      width: 2.72rem;
+      height: 2.72rem;
+      border: 1px solid color-mix(in srgb, var(--text) 14%, transparent);
+      border-radius: 999px;
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--surface) 78%, transparent), color-mix(in srgb, var(--surface) 52%, transparent));
+      box-shadow:
+        inset 0 1px 0 color-mix(in srgb, #fff 26%, transparent),
+        0 12px 36px rgb(0 0 0 / 0.09);
+      backdrop-filter: blur(22px) saturate(1.25);
+      -webkit-backdrop-filter: blur(22px) saturate(1.25);
+      transition:
+        border-color 220ms ease,
+        background 220ms ease,
+        box-shadow 220ms ease,
+        transform 220ms ease;
+    }
+
+    .site-header.is-scrolled [data-menu-button] {
+      transform: translate3d(0, -1px, 0);
+      border-color: color-mix(in srgb, var(--text) 18%, transparent);
+      box-shadow:
+        inset 0 1px 0 color-mix(in srgb, #fff 24%, transparent),
+        0 16px 42px rgb(0 0 0 / 0.11);
+    }
+
+    :root[data-theme='dark'] .site-header [data-menu-button] {
+      border-color: color-mix(in srgb, #fff 18%, transparent);
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--surface) 62%, transparent), color-mix(in srgb, var(--bg) 44%, transparent));
+      box-shadow:
+        inset 0 1px 0 rgb(255 255 255 / 0.08),
+        0 12px 34px rgb(0 0 0 / 0.22);
+    }
+
+    .mobile-menu-panel {
+      top: calc(3.95rem + env(safe-area-inset-top));
+      left: 1rem;
+      right: 1rem;
+      border-color: color-mix(in srgb, var(--text) 14%, transparent);
+      border-radius: 1.45rem;
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--surface) 86%, transparent), color-mix(in srgb, var(--surface) 72%, var(--bg)));
+      box-shadow:
+        inset 0 1px 0 color-mix(in srgb, #fff 24%, transparent),
+        0 24px 72px rgb(0 0 0 / 0.16);
+      backdrop-filter: blur(28px) saturate(1.35);
+      -webkit-backdrop-filter: blur(28px) saturate(1.35);
+    }
+
+    :root[data-theme='dark'] .mobile-menu-panel {
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--surface) 78%, transparent), color-mix(in srgb, var(--bg) 72%, transparent));
+      box-shadow:
+        inset 0 1px 0 rgb(255 255 255 / 0.08),
+        0 28px 82px rgb(0 0 0 / 0.42);
+    }
+
+    .mobile-menu-panel nav > a {
+      border-bottom-color: color-mix(in srgb, var(--text) 10%, transparent);
+    }
+
     body.home-mobile-reference {
       --home-mobile-bg: var(--bg);
       --home-mobile-surface: var(--surface);
@@ -534,31 +840,11 @@
     }
 
     body.home-mobile-reference .site-header {
-      border-color: transparent;
-      background: linear-gradient(
-        180deg,
-        color-mix(in srgb, var(--bg) 92%, transparent),
-        color-mix(in srgb, var(--bg) 56%, transparent) 70%,
-        transparent
-      );
-      backdrop-filter: blur(18px);
+      background: transparent;
+      backdrop-filter: none;
     }
 
     body.home-mobile-reference [data-mobile-menu] {
-      position: fixed;
-      top: 4.55rem;
-      left: 1rem;
-      right: 1rem;
-      z-index: 49;
-      width: auto;
-      max-width: none;
-      margin: 0;
-      box-sizing: border-box;
-      border: 1px solid var(--border);
-      color: var(--text);
-      background: color-mix(in srgb, var(--surface) 94%, var(--bg));
-      box-shadow: 0 24px 70px rgb(0 0 0 / 0.18);
-      backdrop-filter: blur(22px);
       padding: 0.75rem 1.15rem 1.15rem;
     }
 
@@ -591,42 +877,87 @@
     }
 
     body.home-mobile-reference .site-header .site-shell {
-      height: 4.55rem;
-      padding-inline: 1.35rem;
-    }
-
-    body.home-mobile-reference .site-header a[aria-label='Zi Gui Shi An home'] > span:first-child {
-      display: none;
+      height: calc(3.75rem + env(safe-area-inset-top));
+      padding-inline: 1rem;
     }
 
     body.home-mobile-reference .site-header a[aria-label='Zi Gui Shi An home'] > span:last-child {
-      font-size: 0.86rem;
-      letter-spacing: 0.16em;
+      font-size: 0.76rem;
+      letter-spacing: 0.15em;
     }
 
     body.home-mobile-reference [data-menu-button] {
-      width: 2.85rem;
-      height: 2.85rem;
-      border-color: color-mix(in srgb, var(--text) 28%, transparent);
-      background: color-mix(in srgb, var(--surface) 32%, transparent);
+      width: 2.72rem;
+      height: 2.72rem;
     }
 
     body.home-mobile-reference .site-shell {
       padding-inline: 1.55rem;
     }
 
+    main > .site-shell,
+    main > article.site-shell,
+    main > section.site-shell {
+      padding-top: calc(5.4rem + env(safe-area-inset-top)) !important;
+    }
+
+    main > .site-shell.pb-16,
+    main > article.site-shell.pb-16,
+    main > section.site-shell.pb-16 {
+      padding-bottom: 3.8rem;
+    }
+
+    main > section.site-shell > header p.mb-8,
+    main > article.site-shell header p.mb-8 {
+      margin-bottom: 1.25rem;
+    }
+
+    main > section.site-shell > header p.mt-10,
+    main > article.site-shell header p.mt-8,
+    main > article.site-shell header p.mt-10 {
+      margin-top: 1.5rem;
+    }
+
+    main > section.site-shell [data-runtime-controls] {
+      margin-top: 1.75rem;
+    }
+
+    main > section.site-shell [data-runtime-status] {
+      margin-top: 1.75rem;
+    }
+
+    main > section.site-shell [data-runtime-content] {
+      margin-top: 2rem;
+    }
+
+    main > section.site-shell > h1,
+    main > section.site-shell > header h1 {
+      font-size: clamp(2.75rem, 13vw, 4.2rem);
+      line-height: 0.96;
+    }
+
+    main > article.site-shell > header,
+    main > article.site-shell > .runtime-detail-hero {
+      margin-top: 1.6rem;
+    }
+
+    main > article.site-shell .prose-site,
+    main > article.site-shell .runtime-prose {
+      margin-top: 2.75rem;
+    }
+
     body.home-mobile-reference .home-hero {
       min-height: 100svh;
-      padding-top: 4.55rem;
+      padding-top: calc(3.75rem + env(safe-area-inset-top));
       background:
         radial-gradient(circle at 74% 36%, color-mix(in srgb, var(--text) 8%, transparent), transparent 16rem),
         linear-gradient(180deg, color-mix(in srgb, var(--text) 3%, transparent), transparent 42%);
     }
 
     body.home-mobile-reference .home-hero .site-shell {
-      min-height: calc(100svh - 4.55rem);
+      min-height: calc(100svh - 3.75rem - env(safe-area-inset-top));
       align-items: start;
-      padding-top: clamp(5.6rem, 18vh, 8rem);
+      padding-top: clamp(3.35rem, 10.5svh, 5.35rem);
     }
 
     body.home-mobile-reference .home-hero-copy {
@@ -1253,35 +1584,45 @@
   .runtime-prose pre {
     position: relative;
     overflow: auto;
-    border: 1px solid color-mix(in srgb, var(--text) 15%, transparent);
-    border-radius: 4px;
+    border: 1px solid color-mix(in srgb, var(--text) 13%, transparent);
+    border-radius: 10px;
     background:
-      linear-gradient(180deg, color-mix(in srgb, var(--surface) 92%, var(--text) 5%), color-mix(in srgb, var(--surface) 82%, var(--text) 8%));
-    padding: 3.2rem 1.35rem 1.45rem;
+      linear-gradient(180deg, color-mix(in srgb, var(--surface) 88%, #fff 8%), color-mix(in srgb, var(--surface) 78%, var(--text) 7%));
+    padding: 3.35rem 1.25rem 1.35rem;
     font-size: 0.92rem;
     line-height: 1.8;
     scrollbar-width: thin;
-    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 7%, transparent);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, #fff 30%, transparent),
+      0 18px 52px rgb(0 0 0 / 0.07);
   }
 
   .runtime-prose pre::before {
-    content: 'CODE';
+    content: '';
     position: absolute;
-    top: 1rem;
+    top: 1.14rem;
     left: 1.25rem;
-    color: var(--muted);
-    font-size: 0.66rem;
-    letter-spacing: 0.16em;
+    width: 2.7rem;
+    height: 0.72rem;
+    background:
+      radial-gradient(circle at 0.36rem 50%, #ff5f57 0 0.28rem, transparent 0.3rem),
+      radial-gradient(circle at 1.36rem 50%, #ffbd2e 0 0.28rem, transparent 0.3rem),
+      radial-gradient(circle at 2.36rem 50%, #28c840 0 0.28rem, transparent 0.3rem);
   }
 
   .runtime-prose pre::after {
-    content: '';
+    content: attr(data-code-language);
     position: absolute;
-    top: 1.18rem;
-    right: 1.25rem;
-    width: 3.6rem;
-    height: 1px;
-    background: color-mix(in srgb, var(--text) 18%, transparent);
+    top: 1.04rem;
+    left: 5rem;
+    max-width: calc(100% - 11rem);
+    overflow: hidden;
+    color: color-mix(in srgb, var(--muted) 78%, var(--text) 22%);
+    font-size: 0.66rem;
+    letter-spacing: 0.18em;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
   }
 
   .runtime-prose code {
@@ -1299,7 +1640,7 @@
     border: 0;
     padding: 0;
     background: transparent;
-    color: color-mix(in srgb, var(--text) 88%, var(--muted));
+    color: #1f2937;
     white-space: pre;
   }
 
@@ -1461,6 +1802,78 @@
       transform: translate(-50%, 8px);
       opacity: 0.9;
     }
+  }
+}
+
+.not-found-page {
+  background:
+    radial-gradient(circle at 76% 42%, color-mix(in srgb, var(--text) 6%, transparent), transparent 21rem),
+    linear-gradient(180deg, transparent, color-mix(in srgb, var(--surface) 36%, transparent));
+}
+
+.not-found-content {
+  animation: not-found-enter 780ms cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+.not-found-orbit {
+  position: absolute;
+  top: 50%;
+  right: -14vw;
+  width: min(58rem, 72vw);
+  aspect-ratio: 1.7;
+  transform: translateY(-50%) rotate(-14deg);
+  opacity: 0.7;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+}
+
+.not-found-orbit span {
+  position: absolute;
+  inset: calc(var(--i, 0) * 9%);
+  border: 1px solid color-mix(in srgb, var(--text) 18%, transparent);
+  border-radius: 50%;
+}
+
+.not-found-orbit span:nth-child(1) {
+  --i: 0;
+  border-style: dashed;
+}
+
+.not-found-orbit span:nth-child(2) {
+  --i: 1;
+}
+
+.not-found-orbit span:nth-child(3) {
+  --i: 2;
+  border-style: dotted;
+}
+
+.not-found-orbit i {
+  position: absolute;
+  top: 48%;
+  left: 45%;
+  width: 0.72rem;
+  height: 0.72rem;
+  border-radius: 999px;
+  background: var(--text);
+  box-shadow:
+    8rem -4rem 0 -0.16rem color-mix(in srgb, var(--text) 72%, transparent),
+    14rem 5rem 0 -0.22rem color-mix(in srgb, var(--text) 52%, transparent),
+    -7rem 6rem 0 -0.2rem color-mix(in srgb, var(--text) 44%, transparent);
+}
+
+@keyframes not-found-enter {
+  from {
+    transform: translate3d(0, 1.4rem, 0);
+    opacity: 0;
+    filter: blur(8px);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+    filter: blur(0);
   }
 }
 

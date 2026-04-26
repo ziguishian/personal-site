@@ -1,0 +1,39 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Button from '@/components/ui/Button.astro';
+
+interface Props {
+  code: string;
+  label: string;
+  title: string;
+  description: string;
+  secondary?: string;
+}
+
+const { code, label, title, description, secondary = 'The signal is temporarily outside this universe.' } = Astro.props;
+---
+
+<BaseLayout lang="zh" title={`${code} / ${label}`} description={description} noindex>
+  <section class="not-found-page relative grid min-h-screen overflow-hidden">
+    <div class="not-found-orbit" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+      <i></i>
+    </div>
+    <div class="site-shell relative z-10 grid min-h-screen items-center py-28">
+      <div class="not-found-content max-w-3xl">
+        <p class="text-xs uppercase tracking-[0.22em] text-muted">{code} / {label}</p>
+        <h1 class="mt-8 text-[clamp(4.4rem,18vw,12rem)] font-normal leading-none tracking-normal">{code}</h1>
+        <p class="mt-8 max-w-xl text-[clamp(1.35rem,4.8vw,2.7rem)] leading-tight">{title}</p>
+        <p class="mt-5 max-w-xl text-base leading-8 text-muted md:text-lg">{secondary}</p>
+        <div class="mt-12 flex flex-wrap items-center gap-6">
+          <Button href="/" label="回到首页" />
+          <a class="focus-ring text-sm uppercase tracking-[0.14em] text-muted transition-colors hover:text-text" href="/universe">
+            探索宇宙
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

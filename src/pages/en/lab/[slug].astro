@@ -1,0 +1,14 @@
+---
+import LabLayout from '@/layouts/LabLayout.astro';
+import { getCollection } from 'astro:content';
+import { contentSlug } from '@/utils/content';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('lab', ({ data }) => data.lang === 'en' && !data.draft);
+  return entries.map((entry, index) => ({ params: { slug: contentSlug(entry) }, props: { entry, next: entries[index + 1] ?? entries[0] } }));
+}
+
+const { entry, next } = Astro.props;
+---
+
+<LabLayout entry={entry} next={next} lang="en" />

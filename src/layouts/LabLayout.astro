@@ -1,0 +1,63 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Tag from '@/components/ui/Tag.astro';
+import { contentSlug, formatDate } from '@/utils/content';
+import { getAssetUrl } from '@/utils/assets';
+import { type Lang, withLang } from '@/utils/i18n';
+import { render } from 'astro:content';
+
+const { entry, next, lang = 'zh' } = Astro.props as any;
+const { Content } = await render(entry);
+const status = entry.data.experimental ? 'Experimental' : entry.data.status;
+---
+
+<BaseLayout lang={lang as Lang} title={entry.data.seo?.title ?? entry.data.title} description={entry.data.seo?.description ?? entry.data.description} image={entry.data.ogImage ?? entry.data.cover}>
+  <article class="site-shell pb-16 pt-28 md:pb-20 lg:pt-[7.5rem]">
+    <a class="text-sm uppercase tracking-[0.18em] text-muted" href={withLang('/lab', lang)}>{lang === 'zh' ? '返回实验室' : 'Back to Lab'}</a>
+    <header class="mt-10 grid gap-12 border-b pb-14 hairline lg:grid-cols-[0.74fr_1.26fr] lg:items-end">
+      <div>
+        <p class="mb-8 text-sm uppercase tracking-[0.2em] text-muted">{status}</p>
+        <h1 class="text-balance text-[clamp(3rem,7vw,7.2rem)] font-normal leading-[0.92]">{entry.data.title}</h1>
+        <p class="mt-8 max-w-xl text-xl leading-9 text-muted">{entry.data.description}</p>
+      </div>
+      {entry.data.cover && (
+        <img class="aspect-[16/9] w-full object-cover" src={getAssetUrl(entry.data.cover)} alt={entry.data.title} loading="eager" />
+      )}
+    </header>
+
+    <dl class="grid gap-0 border-b text-sm uppercase tracking-[0.12em] hairline md:grid-cols-3">
+      <div class="border-b py-6 hairline md:border-b-0 md:border-r md:px-6"><dt class="text-muted">{lang === 'zh' ? '日期' : 'Date'}</dt><dd class="mt-2">{formatDate(entry.data.date, lang)}</dd></div>
+      <div class="border-b py-6 hairline md:border-b-0 md:border-r md:px-6"><dt class="text-muted">{lang === 'zh' ? '状态' : 'Status'}</dt><dd class="mt-2">{entry.data.status}</dd></div>
+      <div class="py-6 md:px-6"><dt class="text-muted">{lang === 'zh' ? '类型' : 'Type'}</dt><dd class="mt-2">{entry.data.experimental ? (lang === 'zh' ? '实验' : 'Experiment') : 'Lab'}</dd></div>
+    </dl>
+
+    <div class="mt-8 flex flex-wrap items-center gap-2">
+      {entry.data.tags.map((tag: string) => <Tag text={tag} />)}
+      {entry.data.link && (
+        <a class="ml-auto border-b pb-1 text-sm uppercase tracking-[0.14em]" href={entry.data.link} target="_blank" rel="noreferrer">
+          {lang === 'zh' ? '打开实验' : 'Open Experiment'}
+        </a>
+      )}
+    </div>
+
+    <div class="mt-20 grid gap-14 lg:grid-cols-[0.24fr_0.76fr]">
+      <aside class="hidden text-sm uppercase tracking-[0.14em] text-muted lg:block">
+        <div class="sticky top-28 space-y-5">
+          <p>{status}</p>
+          <p>{formatDate(entry.data.date, lang)}</p>
+          <p>{entry.data.tags.join(' / ')}</p>
+        </div>
+      </aside>
+      <div class="prose prose-lg prose-site max-w-3xl">
+        <Content />
+      </div>
+    </div>
+
+    {next && (
+      <a href={withLang(`/lab/${contentSlug(next)}`, lang)} class="mt-24 flex items-center justify-between gap-8 border-t py-8 text-xl hairline md:text-2xl">
+        <span>{lang === 'zh' ? '下一个实验' : 'Next Experiment'}</span>
+        <span class="text-right">{next.data.title}</span>
+      </a>
+    )}
+  </article>
+</BaseLayout>

@@ -34,11 +34,13 @@ const runtimeLabels = {
     back: '返回',
     backWorks: '返回作品',
     backThinking: '返回思考',
+    backLab: '返回实验室',
     empty: '还没有内容。',
     loading: '正在读取内容...',
     read: '阅读全文',
     view: '查看项目',
     next: '下一个',
+    nextLab: '下一个实验',
     date: '日期',
     role: '角色',
     status: '状态',
@@ -46,6 +48,7 @@ const runtimeLabels = {
     year: '年份',
     sourceMissing: '没有找到这篇内容。请检查 slug 或 index.json。',
     detailHint: '内容来自 /content，可在打包后直接更新。',
+    openExperiment: '打开实验',
     searchPlaceholder: '搜索标题、摘要或标签'
   },
   en: {
@@ -53,11 +56,13 @@ const runtimeLabels = {
     back: 'Back',
     backWorks: 'Back to Works',
     backThinking: 'Back to Thinking',
+    backLab: 'Back to Lab',
     empty: 'No content yet.',
     loading: 'Loading content...',
     read: 'Read Article',
     view: 'View Project',
     next: 'Next',
+    nextLab: 'Next Experiment',
     date: 'Date',
     role: 'Role',
     status: 'Status',
@@ -65,6 +70,7 @@ const runtimeLabels = {
     year: 'Year',
     sourceMissing: 'This content was not found. Please check the slug or index.json.',
     detailHint: 'Loaded from /content and editable after build.',
+    openExperiment: 'Open Experiment',
     searchPlaceholder: 'Search title, summary or tags'
   }
 } satisfies Record<Lang, Record<string, string>>;
@@ -127,6 +133,95 @@ function escapeHtml(value = '') {
     .replace(/'/g, '&#039;');
 }
 
+function codeTokenClass(kind: string, value: string) {
+  return `<span class="code-token code-token-${kind}">${escapeHtml(value)}</span>`;
+}
+
+function highlightCode(source: string, lang = '') {
+  const language = lang.toLowerCase();
+  const keywords = [
+    'astro',
+    'await',
+    'break',
+    'case',
+    'catch',
+    'class',
+    'const',
+    'continue',
+    'default',
+    'do',
+    'else',
+    'export',
+    'extends',
+    'false',
+    'finally',
+    'for',
+    'from',
+    'function',
+    'if',
+    'import',
+    'in',
+    'interface',
+    'let',
+    'new',
+    'null',
+    'of',
+    'return',
+    'satisfies',
+    'switch',
+    'throw',
+    'true',
+    'try',
+    'type',
+    'undefined',
+    'while'
+  ].join('|');
+
+  if (['html', 'astro', 'xml'].includes(language)) {
+    const htmlPattern = /(<!--[\s\S]*?-->)|(<\/?[A-Za-z][^>]*>)|("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')/g;
+    let output = '';
+    let lastIndex = 0;
+    for (const match of source.matchAll(htmlPattern)) {
+      output += escapeHtml(source.slice(lastIndex, match.index));
+      const [token, comment, tag, string] = match;
+      if (comment) output += codeTokenClass('comment', comment);
+      else if (string) output += codeTokenClass('string', string);
+      else if (tag) {
+        output += escapeHtml(tag)
+          .replace(/(&lt;\/?)([A-Za-z][\w:-]*)/g, `$1<span class="code-token code-token-tag">$2</span>`)
+          .replace(/\s([A-Za-z_:][\w:.-]*)(=)/g, ` <span class="code-token code-token-attr">$1</span>$2`);
+      } else {
+        output += escapeHtml(token);
+      }
+      lastIndex = (match.index || 0) + token.length;
+    }
+    output += escapeHtml(source.slice(lastIndex));
+    return output;
+  }
+
+  const commentPattern = language === 'bash' || language === 'sh' ? /#.*$/ : /\/\/.*$|\/\*[\s\S]*?\*\//;
+  const tokenPattern = new RegExp(
+    `(${commentPattern.source})|("(?:\\\\.|[^"\\\\])*"|'(?:\\\\.|[^'\\\\])*'|\`(?:\\\\.|[^\`\\\\])*\`)|(\\b(?:${keywords})\\b)|(\\b\\d+(?:\\.\\d+)?\\b)|([A-Za-z_$][\\w$]*(?=\\s*\\())`,
+    'gm'
+  );
+
+  let output = '';
+  let lastIndex = 0;
+  for (const match of source.matchAll(tokenPattern)) {
+    output += escapeHtml(source.slice(lastIndex, match.index));
+    const [token, comment, string, keyword, number, fn] = match;
+    if (comment) output += codeTokenClass('comment', comment);
+    else if (string) output += codeTokenClass('string', string);
+    else if (keyword) output += codeTokenClass('keyword', keyword);
+    else if (number) output += codeTokenClass('number', number);
+    else if (fn) output += codeTokenClass('function', fn);
+    else output += escapeHtml(token);
+    lastIndex = (match.index || 0) + token.length;
+  }
+  output += escapeHtml(source.slice(lastIndex));
+  return output;
+}
+
 function inlineMarkdown(value = '') {
   let text = escapeHtml(value);
   text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, src) => {
@@ -172,7 +267,7 @@ function renderMarkdown(markdown: string) {
 
     if (line.startsWith('```')) {
       if (inCode) {
-        html.push(`<pre><code class="language-${escapeHtml(codeLang)}">${escapeHtml(code.join('\n'))}</code></pre>`);
+        html.push(`<pre><code class="language-${escapeHtml(codeLang)}">${highlightCode(code.join('\n'), codeLang)}</code></pre>`);
         code = [];
         codeLang = '';
         inCode = false;
@@ -488,17 +583,48 @@ export async function mountRuntimeLive(root: HTMLElement) {
 
 export async function mountRuntimeLab(root: HTMLElement) {
   const lang = langFromRoot(root);
+  const base = root.dataset.base || '/lab';
   const slot = root.querySelector<HTMLElement>('[data-runtime-content]');
   if (!slot) return;
   const items = await loadIndex('lab', lang);
+  const slug = new URL(window.location.href).searchParams.get('slug');
+
+  if (slug) {
+    const item = items.find((entry) => entry.slug === slug);
+    if (!item) {
+      slot.innerHTML = `<p class="runtime-empty">${label(lang, 'sourceMissing')}</p>`;
+      return;
+    }
+    root.querySelector<HTMLElement>('h1')?.setAttribute('hidden', '');
+    const markdown = await loadMarkdown(item, lang);
+    const next = items[(items.findIndex((entry) => entry.slug === slug) + 1) % items.length];
+    slot.innerHTML = `
+      <article class="runtime-detail runtime-lab-detail">
+        <a class="runtime-back" href="${base}">← ${label(lang, 'backLab')}</a>
+        <div class="runtime-detail-hero">
+          <div>
+            <p class="runtime-kicker">${escapeHtml(item.experimental ? 'Experimental' : item.status || 'Lab')}</p>
+            <h1>${escapeHtml(item.title)}</h1>
+            <p>${escapeHtml(item.description)}</p>
+          </div>
+          ${item.cover ? `<img src="${assetUrl(item.cover)}" alt="${escapeHtml(item.title)}" loading="eager" decoding="async" />` : ''}
+        </div>
+        <dl class="runtime-meta-grid">
+          <div><dt>${label(lang, 'date')}</dt><dd>${formatDate(item.date, lang)}</dd></div>
+          <div><dt>${label(lang, 'status')}</dt><dd>${escapeHtml(item.status || '')}</dd></div>
+          <div><dt>Type</dt><dd>${escapeHtml(item.experimental ? 'Experiment' : 'Lab')}</dd></div>
+          <div><dt>Source</dt><dd>${escapeHtml(item.file || '')}</dd></div>
+        </dl>
+        <div class="runtime-tags">${tagsHtml(item.tags)}</div>
+        ${item.link && item.link !== '#' ? `<a class="runtime-back mt-8" href="${escapeHtml(item.link)}" target="_blank" rel="noreferrer">${label(lang, 'openExperiment')}</a>` : ''}
+        <div class="runtime-prose">${renderMarkdown(markdown)}</div>
+        ${next && next.slug !== item.slug ? `<a class="runtime-next" href="${detailHref(base, next.slug)}"><span>${label(lang, 'nextLab')}</span><strong>${escapeHtml(next.title)}</strong><i>→</i></a>` : ''}
+      </article>
+    `;
+    return;
+  }
+
   slot.innerHTML = items.length
-    ? `<div class="runtime-work-grid">${items
-        .map((item, index) => {
-          const card = renderWorkCard(item, index, item.link || window.location.pathname);
-          return item.link && item.link !== '#'
-            ? card
-            : card.replace(/href="[^"]+"/, 'href="#" aria-disabled="true"');
-        })
-        .join('')}</div>`
+    ? `<div class="runtime-work-grid">${items.map((item, index) => renderWorkCard(item, index, base)).join('')}</div>`
     : `<p class="runtime-empty">${label(lang, 'empty')}</p>`;
 }

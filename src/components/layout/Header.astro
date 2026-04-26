@@ -8,10 +8,10 @@ interface Props { lang: Lang; pathname: string }
 const { lang, pathname } = Astro.props;
 ---
 
-<header class="site-header fixed inset-x-0 top-0 z-50 border-b border-transparent bg-[color-mix(in_srgb,var(--bg)_82%,transparent)] backdrop-blur-xl">
+<header class="site-header fixed inset-x-0 top-0 z-50 border-b border-transparent bg-transparent">
   <div class="site-shell flex h-20 items-center justify-between">
     <a href={withLang('/', lang)} class="flex items-center gap-4 focus-ring" aria-label="Zi Gui Shi An home">
-      <span class="grid h-11 w-11 place-items-center rounded-full border hairline">
+      <span class="grid h-11 w-11 place-items-center rounded-full">
         <span class="relative h-7 w-px bg-text before:absolute before:left-1/2 before:top-1/2 before:h-3 before:w-3 before:-translate-x-1/2 before:-translate-y-1/2 before:rounded-full before:bg-text"></span>
       </span>
       <span class="text-sm uppercase tracking-[0.18em]">{t(lang, 'logoName')}</span>
@@ -44,10 +44,12 @@ const { lang, pathname } = Astro.props;
 <script>
   const button = document.querySelector('[data-menu-button]');
   const menu = document.querySelector('[data-mobile-menu]');
+  const header = document.querySelector('.site-header');
   const openIcon = document.querySelector('[data-menu-open]');
   const closeIcon = document.querySelector('[data-menu-close]');
   const setMenuOpen = (open: boolean) => {
     menu?.classList.toggle('hidden', !open);
+    header?.classList.toggle('is-menu-open', open);
     openIcon?.classList.toggle('hidden', open);
     closeIcon?.classList.toggle('hidden', !open);
   };
@@ -69,8 +71,22 @@ const { lang, pathname } = Astro.props;
     if (event.key === 'Escape') setMenuOpen(false);
   });
 
-  const header = document.querySelector('.site-header');
-  const syncHeader = () => header?.classList.toggle('is-scrolled', window.scrollY > 18);
+  const getBrandHideLimit = () => {
+    const title =
+      document.querySelector<HTMLElement>('.home-hero-title') ||
+      document.querySelector<HTMLElement>('main h1');
+    if (!title) return 72;
+    const titleTop = title.getBoundingClientRect().top + window.scrollY;
+    return Math.max(72, titleTop - 28);
+  };
+
+  const syncHeader = () => {
+    const currentScrollY = window.scrollY;
+    const brandHideLimit = getBrandHideLimit();
+    header?.classList.toggle('is-scrolled', currentScrollY > 18);
+    header?.classList.toggle('is-brand-hidden', currentScrollY > brandHideLimit);
+  };
   syncHeader();
   window.addEventListener('scroll', syncHeader, { passive: true });
+  window.addEventListener('resize', syncHeader);
 </script>
