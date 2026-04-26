@@ -420,6 +420,22 @@ link          demo 链接，可选
 
 ## 十一、JSON 常见错误
 
+本地发布前建议先运行：
+
+```bash
+npm run content:check
+```
+
+它会检查：
+
+- `public/content` 下各语言索引是否存在。
+- 每条内容是否缺少 `title`、`slug`、`lang`、`description`、`date`、`file`。
+- `file` 指向的 Markdown 是否真的存在。
+- `cover` 指向的本地图片是否真的存在。
+- `progress` 是否是 0-100 的数字。
+
+如果只是在线上 `dist/content` 临时更新，也可以参考这个规则手动检查。
+
 错误：
 
 ```json
