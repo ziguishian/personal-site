@@ -2,6 +2,8 @@
 
 一个可长期维护的静态个人官网，使用 Astro + TypeScript + Tailwind CSS + Three.js。页面静态构建，作品、文章、动态、实验室内容支持运行时从 `/content` 读取，支持中英文、light / dark / system 主题和 OSS CDN 图片地址切换。
 
+<img width="1406" height="920" alt="image" src="https://github.com/user-attachments/assets/5dabdc48-e748-4532-902a-681f56763dc7" />
+
 ## 运行
 
 ```bash
