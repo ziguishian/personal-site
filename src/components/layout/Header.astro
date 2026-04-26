@@ -46,10 +46,27 @@ const { lang, pathname } = Astro.props;
   const menu = document.querySelector('[data-mobile-menu]');
   const openIcon = document.querySelector('[data-menu-open]');
   const closeIcon = document.querySelector('[data-menu-close]');
-  button?.addEventListener('click', () => {
-    menu?.classList.toggle('hidden');
-    openIcon?.classList.toggle('hidden');
-    closeIcon?.classList.toggle('hidden');
+  const setMenuOpen = (open: boolean) => {
+    menu?.classList.toggle('hidden', !open);
+    openIcon?.classList.toggle('hidden', open);
+    closeIcon?.classList.toggle('hidden', !open);
+  };
+
+  button?.addEventListener('click', (event) => {
+    event.stopPropagation();
+    setMenuOpen(Boolean(menu?.classList.contains('hidden')));
+  });
+
+  menu?.addEventListener('click', (event) => {
+    event.stopPropagation();
+  });
+
+  document.addEventListener('click', () => {
+    if (!menu?.classList.contains('hidden')) setMenuOpen(false);
+  });
+
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') setMenuOpen(false);
   });
 
   const header = document.querySelector('.site-header');
