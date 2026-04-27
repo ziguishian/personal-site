@@ -1,9 +1,9 @@
 ---
 import Header from '@/components/layout/Header.astro';
 import Footer from '@/components/layout/Footer.astro';
-import { getAssetUrl } from '@/utils/assets';
+import { defaultAssetBase, getAssetUrl } from '@/utils/assets';
 import { getLangFromUrl, t, type Lang } from '@/utils/i18n';
-import { absoluteUrl } from '@/utils/seo';
+import { absoluteUrl, alternateLinks, canonicalPath, graphSchema, personSchema, siteAuthor, siteKeywords, websiteSchema } from '@/utils/seo';
 import { themeInitScript } from '@/utils/theme';
 import '@/styles/global.css';
 
@@ -14,16 +14,50 @@ interface Props {
   lang?: Lang;
   noindex?: boolean;
   canonical?: string;
+  pageType?: 'website' | 'article' | 'profile' | 'creativeWork';
+  publishedTime?: Date | string;
+  updatedTime?: Date | string;
+  tags?: string[];
+  structuredData?: object | object[];
 }
 
 const lang = Astro.props.lang ?? getLangFromUrl(Astro.url);
 const title = Astro.props.title ? `${Astro.props.title} | Zi Gui Shi An` : 'Zi Gui Shi An';
 const description =
   Astro.props.description ?? 'AI Builder / Product Designer. A quiet personal universe for works, thinking and live updates.';
-const canonical = Astro.props.canonical ?? absoluteUrl(Astro.url.pathname);
+const canonical = Astro.props.canonical ?? absoluteUrl(canonicalPath(Astro.url.pathname, lang));
+const alternates = alternateLinks(Astro.url.pathname, lang);
 const shareImagePath = Astro.props.image && !Astro.props.image.endsWith('.svg') ? Astro.props.image : '/images/og/wechat-share.jpg';
 const image = absoluteUrl(getAssetUrl(shareImagePath));
-const assetBase = import.meta.env.PUBLIC_ASSET_BASE_URL || '';
+const assetBase = (import.meta.env.PUBLIC_ASSET_BASE_URL || defaultAssetBase).replace(/\/$/, '');
+const pageType = Astro.props.pageType ?? 'website';
+const publishedTime = Astro.props.publishedTime ? new Date(Astro.props.publishedTime).toISOString() : undefined;
+const updatedTime = Astro.props.updatedTime ? new Date(Astro.props.updatedTime).toISOString() : publishedTime;
+const keywords = [...siteKeywords, ...(Astro.props.tags ?? [])].join(', ');
+const pageSchema = {
+  '@type': pageType === 'article' ? 'Article' : pageType === 'creativeWork' ? 'CreativeWork' : pageType === 'profile' ? 'ProfilePage' : 'WebPage',
+  '@id': `${canonical}#webpage`,
+  url: canonical,
+  name: title,
+  headline: title,
+  description,
+  image,
+  inLanguage: lang === 'zh' ? 'zh-CN' : 'en-US',
+  isPartOf: { '@id': `${absoluteUrl('/')}#website` },
+  author: { '@id': `${absoluteUrl('/')}#person` },
+  creator: { '@id': `${absoluteUrl('/')}#person` },
+  publisher: { '@id': `${absoluteUrl('/')}#person` },
+  datePublished: publishedTime,
+  dateModified: updatedTime,
+  keywords
+};
+const structuredData = [
+  personSchema(),
+  websiteSchema(lang),
+  pageSchema,
+  ...(Array.isArray(Astro.props.structuredData) ? Astro.props.structuredData : Astro.props.structuredData ? [Astro.props.structuredData] : [])
+];
+const jsonLd = JSON.stringify(graphSchema(structuredData)).replace(/</g, '\\u003c');
 ---
 
 <!doctype html>
@@ -37,10 +71,21 @@ const assetBase = import.meta.env.PUBLIC_ASSET_BASE_URL || '';
     <script is:inline set:html={themeInitScript}></script>
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="author" content={siteAuthor} />
+    <meta name="keywords" content={keywords} />
+    <meta name="generator" content="Astro" />
     <link rel="canonical" href={canonical} />
+    {alternates.map((alternate) => <link rel="alternate" hreflang={alternate.lang} href={alternate.href} />)}
+    <link rel="alternate" type="application/rss+xml" title="Zi Gui Shi An / Thinking RSS" href={absoluteUrl('/rss.xml')} />
+    <link rel="alternate" type="text/plain" title="LLM Site Summary" href={absoluteUrl('/llms.txt')} />
+    <link rel="alternate" type="application/json" title="Entity Profile" href={absoluteUrl('/entity.json')} />
+    <link rel="sitemap" type="application/xml" href={absoluteUrl('/sitemap-index.xml')} />
     <link rel="icon" href="/icons/favicon.svg" />
     {Astro.props.noindex && <meta name="robots" content="noindex,nofollow" />}
-    <meta property="og:type" content="website" />
+    {!Astro.props.noindex && <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />}
+    <meta property="og:locale" content={lang === 'zh' ? 'zh_CN' : 'en_US'} />
+    <meta property="og:locale:alternate" content={lang === 'zh' ? 'en_US' : 'zh_CN'} />
+    <meta property="og:type" content={pageType === 'article' ? 'article' : 'website'} />
     <meta property="og:site_name" content={t(lang, 'siteName')} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -49,11 +94,16 @@ const assetBase = import.meta.env.PUBLIC_ASSET_BASE_URL || '';
     <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="800" />
     <meta property="og:image:height" content="800" />
+    <meta property="og:image:alt" content={title} />
     <meta property="og:url" content={canonical} />
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    {updatedTime && <meta property="article:modified_time" content={updatedTime} />}
+    {(Astro.props.tags ?? []).map((tag) => <meta property="article:tag" content={tag} />)}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={image} />
+    <script is:inline type="application/ld+json" set:html={jsonLd}></script>
   </head>
   <body>
     <div class="reading-progress" aria-hidden="true"><span></span></div>
@@ -66,6 +116,67 @@ const assetBase = import.meta.env.PUBLIC_ASSET_BASE_URL || '';
     <div class="site-cursor" aria-hidden="true"></div>
     <div class="site-cursor-dot" aria-hidden="true"></div>
     <script>
+      const assetBase = document.documentElement.dataset.assetBase?.replace(/\/$/, '') || '';
+      const normalizeAssetImage = (img: HTMLImageElement) => {
+        if (!assetBase || img.dataset.assetNormalized === 'true') return;
+        const rawSrc = img.getAttribute('src') || '';
+        if (!rawSrc || rawSrc.startsWith('data:') || rawSrc.startsWith('blob:')) return;
+
+        const localPathFromCdn = (value: string) => {
+          try {
+            const srcUrl = new URL(value, window.location.origin);
+            const baseUrl = new URL(assetBase);
+            if (srcUrl.origin !== baseUrl.origin) return '';
+            const basePath = baseUrl.pathname.replace(/\/$/, '');
+            if (!basePath || !srcUrl.pathname.startsWith(`${basePath}/`)) return '';
+            return srcUrl.pathname.slice(basePath.length) || '';
+          } catch {
+            return '';
+          }
+        };
+
+        const localFallback = rawSrc.startsWith('/images/')
+          ? rawSrc
+          : rawSrc.startsWith('/public/images/')
+            ? rawSrc.replace(/^\/public/, '')
+            : localPathFromCdn(rawSrc);
+
+        if (!localFallback.startsWith('/images/')) return;
+
+        img.dataset.assetNormalized = 'true';
+        img.dataset.fallbackSrc = localFallback;
+        img.addEventListener(
+          'error',
+          () => {
+            const fallback = img.dataset.fallbackSrc;
+            if (!fallback || img.getAttribute('src') === fallback) return;
+            img.src = fallback;
+          },
+          { once: true }
+        );
+
+        if (rawSrc.startsWith('/images/') || rawSrc.startsWith('/public/images/')) {
+          img.src = `${assetBase}${localFallback}`;
+        }
+      };
+
+      const normalizeAssetImages = (root: ParentNode = document) => {
+        root.querySelectorAll?.('img').forEach((image) => normalizeAssetImage(image as HTMLImageElement));
+      };
+
+      normalizeAssetImages();
+
+      const assetImageObserver = new MutationObserver((records) => {
+        records.forEach((record) => {
+          record.addedNodes.forEach((node) => {
+            if (!(node instanceof Element)) return;
+            if (node instanceof HTMLImageElement) normalizeAssetImage(node);
+            normalizeAssetImages(node);
+          });
+        });
+      });
+      assetImageObserver.observe(document.body, { childList: true, subtree: true });
+
       const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
       const candidates = [
         ...document.querySelectorAll('main > section:not(#top), article > header, article .prose-site, footer')

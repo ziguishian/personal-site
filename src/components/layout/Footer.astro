@@ -1,7 +1,7 @@
 ---
 import { ArrowUp, BookOpenText, Clapperboard, Github, MessageCircle, PlaySquare } from 'lucide-astro';
 import UniverseHero from '@/components/three/UniverseHero.astro';
-import { t, type Lang } from '@/utils/i18n';
+import { t, type Lang, withLang } from '@/utils/i18n';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 ---
@@ -36,6 +36,8 @@ const { lang } = Astro.props;
       <p class="flex flex-wrap gap-x-4 gap-y-2">
         <span>© 2026 Zi Gui Shi An. All rights reserved.</span>
         <a class="transition-opacity hover:opacity-60" href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer">陇ICP备2026003061号-1</a>
+        <a class="transition-opacity hover:opacity-60" href={withLang('/uses', lang)}>{lang === 'zh' ? '工具栈' : 'Uses'}</a>
+        <a class="transition-opacity hover:opacity-60" href={withLang('/faq', lang)}>FAQ</a>
       </p>
       <a class="flex items-center gap-4 uppercase tracking-[0.18em]" href="#top">{t(lang, 'backToTop')} <ArrowUp size={16} /></a>
     </div>

@@ -10,7 +10,15 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 ---
 
-<BaseLayout lang={lang} title={lang === 'zh' ? '子圭时安' : 'Home'} description={t(lang, 'heroBelief')}>
+<BaseLayout
+  lang={lang}
+  title={lang === 'zh' ? '子圭时安｜师健鑫 Alexi Shi' : 'Alexi Shi | Zi Gui Shi An'}
+  description={
+    lang === 'zh'
+      ? '师健鑫，英文名 Alexi Shi，网络身份子圭时安，过去曾用名师兄白泽。00后创业者、极客设计师、AI 创作者，长期探索 AIGC、产品设计、全栈开发、工业设计、创业与星际探索。'
+      : 'Alexi Shi, also known as Zi Gui Shi An and formerly Shixiong Baize, is a Gen-Z entrepreneur, geek designer and AI creator exploring AIGC, product design, full-stack development, industrial design, startups and space exploration.'
+  }
+>
   <script is:inline>
     document.body.classList.add('home-mobile-reference');
   </script>
@@ -58,7 +66,7 @@ const { lang } = Astro.props;
       <div class="home-work-showcase-gallery">
         {[
           { src: '/images/works/lingju/cover.svg', title: lang === 'zh' ? '灵矩绘境' : 'Lingju Vision', meta: 'AIGC × C2M CREATION SYSTEM' },
-          { src: '/images/works/shian-ai/cover.svg', title: lang === 'zh' ? '时安 AI 助手' : 'Shian AI Assistant', meta: 'PERSONAL AI OPERATING SYSTEM' },
+          { src: '/images/works/shian-ai/cover.svg', title: lang === 'zh' ? '子圭时安个人 IP' : 'Zi Gui Shi An Personal IP', meta: 'PUBLIC IDENTITY / CREATOR SYSTEM' },
           { src: '/images/works/compound-practice/cover.svg', title: lang === 'zh' ? '子圭时安数字花园' : 'Zi Gui Shi An Digital Garden', meta: 'WRITING / IP / KNOWLEDGE SYSTEM' }
         ].map((item, index) => (
           <figure class="home-work-showcase-item" style={`--i:${index}`} data-showcase-card>
@@ -87,7 +95,7 @@ const { lang } = Astro.props;
   <section class="home-about home-node-section site-shell section-space border-t hairline" data-scroll-cue>
     <SectionLabel eyebrow={lang === 'zh' ? '04 / 关于' : '04 / About'} title={t(lang, 'aboutTitle')} />
     <div class="mt-12 grid items-center gap-12 lg:grid-cols-[0.44fr_0.34fr_0.22fr]">
-      <img class="aspect-[4/2.45] w-full object-cover" src="/images/about/portrait.svg" alt="Zi Gui Shi An" loading="lazy" />
+      <img class="h-auto max-w-full object-contain" src="/images/about/portrait.png" alt="Zi Gui Shi An" loading="lazy" />
       <div class:list={['space-y-6', lang === 'zh' ? 'text-xl leading-10' : 'text-lg leading-8']}>
         {lang === 'zh' ? (
           <>
@@ -136,7 +144,7 @@ const { lang } = Astro.props;
       <Button href={withLang('/live', lang)} label={t(lang, 'viewLive')} />
     </div>
     <div class="grid gap-5 md:grid-cols-4">
-      <LiveCard title={lang === 'zh' ? 'Now Building' : 'Now Building'} value={lang === 'zh' ? '时安 AI 助手 2.0' : 'Shian AI Assistant 2.0'} description={lang === 'zh' ? '知识管理与创作伙伴' : 'Knowledge and creation copilot'} progress={65} progressLabel={t(lang, 'progress')} />
+      <LiveCard title={lang === 'zh' ? 'Now Building' : 'Now Building'} value={lang === 'zh' ? '灵矩绘境小程序' : 'Lingju Vision Mini Program'} description={lang === 'zh' ? 'AIGC 与定制化电商融合平台' : 'AIGC and custom commerce platform'} progress={80} progressLabel={t(lang, 'progress')} />
       <LiveCard icon="circle" title={lang === 'zh' ? 'Now Incubating' : 'Now Incubating'} value={lang === 'zh' ? '子圭时安' : 'Zi Gui Shi An'} description={lang === 'zh' ? '超级个体 IP 的自我迭代' : 'A personal IP in public'} />
       <LiveCard icon="users" title={lang === 'zh' ? 'Founder Of' : 'Founder Of'} value={lang === 'zh' ? '渡阡科技 / 灵矩绘境' : 'Duqian Tech / Lingju'} description={lang === 'zh' ? '从产品到制造' : 'Product to manufacturing'} />
       <LiveCard icon="sparkle" title={lang === 'zh' ? 'Latest Signal' : 'Latest Signal'} value={lang === 'zh' ? '人类文明' : 'Human Civilization'} description={lang === 'zh' ? 'AI、星际与长期主义' : 'AI, space and long-termism'} />

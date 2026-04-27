@@ -4,7 +4,7 @@ import UniverseHero from '@/components/three/UniverseHero.astro';
 import LiveCard from '@/components/ui/LiveCard.astro';
 import { t, type Lang, withLang } from '@/utils/i18n';
 
-interface Props { lang: Lang; page: 'about' | 'live' | 'lab' | 'system' | 'manifesto' | 'universe' }
+interface Props { lang: Lang; page: 'about' | 'live' | 'lab' | 'system' | 'manifesto' | 'universe' | 'uses' | 'faq' }
 const { lang, page } = Astro.props;
 const titleMap = {
   about: t(lang, 'aboutTitle'),
@@ -12,7 +12,28 @@ const titleMap = {
   lab: t(lang, 'labTitle'),
   system: t(lang, 'systemTitle'),
   manifesto: t(lang, 'manifesto'),
-  universe: t(lang, 'universeTitle')
+  universe: t(lang, 'universeTitle'),
+  uses: lang === 'zh' ? 'Uses / 工具栈' : 'Uses',
+  faq: lang === 'zh' ? 'FAQ / 常见问题' : 'FAQ'
+};
+const descriptionMap = {
+  about:
+    lang === 'zh'
+      ? '师健鑫，英文名 Alexi Shi，网络身份子圭时安，过去曾用名师兄白泽。00后创业者、极客设计师、AI 创作者，长期探索 AIGC、产品设计、全栈开发、工业设计、创业实践与星际探索。'
+      : 'Alexi Shi, also known as Zi Gui Shi An and formerly Shixiong Baize, is a Gen-Z entrepreneur, geek designer and AI creator exploring AIGC, product design, full-stack development, industrial design, startups and space exploration.',
+  live: lang === 'zh' ? '子圭时安正在构建、写作、探索和公开更新的现场。' : 'Live updates from Alexi Shi across building, writing, learning and public creation.',
+  lab: lang === 'zh' ? '未完成的小工具、AI 实验、demo 与概念验证。' : 'Small tools, AI experiments, demos and proofs of concept.',
+  system: lang === 'zh' ? '子圭时安关于系统思维、AI 原生、长期主义和创造驱动的方法论。' : 'Alexi Shi on systems thinking, AI-native building, long-termism and creation-driven work.',
+  manifesto: lang === 'zh' ? '让我们一起加速 AGI 的实现，让劳作归于算法，让灵魂奔向星辰。' : 'Accelerate AGI. Let labor return to algorithms. Let the soul run toward the stars.',
+  universe: t(lang, 'universeSubtitle'),
+  uses:
+    lang === 'zh'
+      ? '子圭时安的工具栈、技术栈、创作系统、设计工具、开发环境与日常工作流。'
+      : 'The tools, technology stack, creative system, design setup, development environment and daily workflow used by Alexi Shi.',
+  faq:
+    lang === 'zh'
+      ? '关于师健鑫、子圭时安、Alexi Shi、灵矩绘境、AIGC、个人网站与合作方式的常见问题。'
+      : 'Frequently asked questions about Alexi Shi, Zi Gui Shi An, Lingju Vision, AIGC, this website and collaboration.'
 };
 const identities = lang === 'zh'
   ? ['00后创业者', '极客设计师', 'AIGC 探索者', '工业设计 / 全栈开发']
@@ -46,9 +67,92 @@ const timeline = lang === 'zh'
       ['2024', 'Served as CTO of Lingji Technology and led AI application-layer product development.'],
       ['2025', 'Founded Lingju Vision, combining AIGC and C2M manufacturing to turn inspiration into objects.']
     ];
+const usesGroups = lang === 'zh'
+  ? [
+      {
+        title: '开发环境',
+        intro: '我更偏好能快速进入心流、足够稳定、又允许高度定制的工具。',
+        items: ['MacBook / macOS', 'VS Code / Cursor / Codex', 'Astro / TypeScript / Tailwind CSS', 'Vue / Node.js / Java', 'MySQL / MongoDB / Redis', 'GitHub / Git']
+      },
+      {
+        title: '设计与产品',
+        intro: '从抽象想法到可见界面，我会尽量把设计、产品和工程放在同一张桌子上。',
+        items: ['Figma', 'Rhino', 'Adobe Photoshop / Illustrator / Premiere', '剪映', 'Midjourney / Gemini / AIGC 工作流', '产品原型 / 信息架构 / 设计系统']
+      },
+      {
+        title: '知识与创作',
+        intro: '输入、整理、输出、验证，是我长期维护自己的方式。',
+        items: ['语雀 / 数字花园', 'Markdown', '微信公众号 / 小红书 / Bilibili', '阅读系统', '播客与随笔', 'Build in Public']
+      },
+      {
+        title: '生活系统',
+        intro: '代码之外，我用一些安静的习惯保持清醒。',
+        items: ['阅读', '写作', '清茶', '电影', '独处', '星际探索 / 火星移民']
+      }
+    ]
+  : [
+      {
+        title: 'Development',
+        intro: 'I prefer tools that are stable, fast to enter flow with, and open enough to customize.',
+        items: ['MacBook / macOS', 'VS Code / Cursor / Codex', 'Astro / TypeScript / Tailwind CSS', 'Vue / Node.js / Java', 'MySQL / MongoDB / Redis', 'GitHub / Git']
+      },
+      {
+        title: 'Design & Product',
+        intro: 'I try to keep design, product thinking and engineering on the same table.',
+        items: ['Figma', 'Rhino', 'Adobe Photoshop / Illustrator / Premiere', 'CapCut', 'Midjourney / Gemini / AIGC workflows', 'Prototyping / IA / Design systems']
+      },
+      {
+        title: 'Knowledge & Creation',
+        intro: 'Input, organize, output and validate: this is how I maintain a long-term creative system.',
+        items: ['Yuque / Digital garden', 'Markdown', 'WeChat / Xiaohongshu / Bilibili', 'Reading system', 'Podcast and notes', 'Build in Public']
+      },
+      {
+        title: 'Life System',
+        intro: 'Beyond code, I keep myself clear through quiet habits.',
+        items: ['Reading', 'Writing', 'Tea', 'Cinema', 'Solitude', 'Space exploration / Mars migration']
+      }
+    ];
+const faqItems = lang === 'zh'
+  ? [
+      ['师健鑫是谁？', '师健鑫，英文名 Alexi Shi，网络身份子圭时安，过去曾用名师兄白泽，是一名 00 后创业者、极客设计师与 AI 创作者。'],
+      ['子圭时安是谁？', '子圭时安是师健鑫的公开网络身份，用来记录 AI 产品、AIGC、产品设计、创业实践、系统思考与长期主义。'],
+      ['Alexi Shi 和师健鑫是同一个人吗？', '是。Alexi Shi / Alex Shi / Alexi、师健鑫、子圭时安、ziguishian 以及过去曾用名师兄白泽，都指向同一个人。'],
+      ['灵矩绘境是什么？', '灵矩绘境是一个将 AIGC 与定制化电商深度融合的平台，目标是让灵感从生成、预览、定制到购买形成完整闭环。'],
+      ['alexi.tech 是什么？', 'alexi.tech 是子圭时安的个人数字空间，不是普通简历页，而是长期维护的作品集、数字花园、公开构建档案与个人世界观入口。'],
+      ['这个网站适合通过什么方式联系？', '目前最推荐通过微信 ziguishian 联系，适合交流 AI、产品设计、AIGC、创业、技术实现与潜在合作。'],
+      ['这个网站的内容如何更新？', '网站核心内容来自 Markdown、运行时内容索引和图片资源。部署后可以通过内容文件和 CDN 图片路径持续维护。'],
+      ['子圭时安关注哪些方向？', '主要关注 AIGC、AI 原生产品、产品设计、全栈开发、工业设计、C2M 定制制造、系统思维、长期主义、火星移民与星际探索。']
+    ]
+  : [
+      ['Who is Alexi Shi?', 'Alexi Shi, also known as Zi Gui Shi An and formerly Shixiong Baize, is a Gen-Z entrepreneur, geek designer and AI creator from China.'],
+      ['Who is Zi Gui Shi An?', 'Zi Gui Shi An is the public identity of Alexi Shi, used to document AI products, AIGC, product design, startup practice, systems thinking and long-term building.'],
+      ['Are Alexi Shi and Shi Jianxin the same person?', 'Yes. Alexi Shi, Alex Shi, Alexi, Shi Jianxin, Zi Gui Shi An, ziguishian and the former name Shixiong Baize refer to the same person.'],
+      ['What is Lingju Vision?', 'Lingju Vision is a platform that combines AIGC and customized commerce, aiming to turn inspiration into purchasable physical products.'],
+      ['What is alexi.tech?', 'alexi.tech is the personal digital space of Alexi Shi: a portfolio, digital garden, build-in-public archive and worldview entry point.'],
+      ['How can I contact Alexi Shi?', 'The preferred contact channel is WeChat: ziguishian, especially for conversations around AI, product design, AIGC, startups and collaboration.'],
+      ['How is this website maintained?', 'The site is maintained through Markdown content, runtime content indexes and CDN-first image assets.'],
+      ['What topics does Alexi Shi focus on?', 'AIGC, AI-native products, product design, full-stack development, industrial design, C2M manufacturing, systems thinking, long-termism, Mars migration and space exploration.']
+    ];
+const faqStructuredData = {
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map(([question, answer]) => ({
+    '@type': 'Question',
+    name: question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: answer
+    }
+  }))
+};
 ---
 
-<BaseLayout lang={lang} title={titleMap[page]}>
+<BaseLayout
+  lang={lang}
+  title={titleMap[page]}
+  description={descriptionMap[page]}
+  pageType={page === 'about' ? 'profile' : 'website'}
+  structuredData={page === 'faq' ? faqStructuredData : undefined}
+>
   {page === 'universe' && (
     <section class="relative min-h-screen pt-24">
       <div class="absolute inset-0 pt-20"><UniverseHero mode="map" /></div>
@@ -57,8 +161,18 @@ const timeline = lang === 'zh'
           <h1 class="text-[clamp(4rem,9vw,9rem)] font-normal leading-[0.9]">{t(lang, 'universeTitle')}</h1>
           <p class="mt-10 text-2xl leading-10 text-muted">{t(lang, 'universeSubtitle')}</p>
           <div class="mx-auto mt-12 grid w-full max-w-4xl gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {['works', 'thinking', 'live', 'about', 'lab', 'system', 'manifesto'].map((item) => (
-              <a class="whitespace-nowrap border px-6 py-5 text-lg hairline transition-colors hover:bg-text hover:text-bg lg:text-xl" href={withLang(`/${item}`, lang)}>{t(lang, item as any) || item}</a>
+            {[
+              ['works', t(lang, 'works')],
+              ['thinking', t(lang, 'thinking')],
+              ['live', t(lang, 'live')],
+              ['about', t(lang, 'about')],
+              ['lab', t(lang, 'lab')],
+              ['uses', lang === 'zh' ? '工具栈' : 'Uses'],
+              ['faq', 'FAQ'],
+              ['system', t(lang, 'system')],
+              ['manifesto', t(lang, 'manifesto')]
+            ].map(([href, label]) => (
+              <a class="whitespace-nowrap border px-6 py-5 text-lg hairline transition-colors hover:bg-text hover:text-bg lg:text-xl" href={withLang(`/${href}`, lang)}>{label}</a>
             ))}
           </div>
         </div>
@@ -71,13 +185,13 @@ const timeline = lang === 'zh'
       <p class="mb-8 text-sm uppercase tracking-[0.18em] text-muted">{t(lang, 'aboutEyebrow')}</p>
       <h1 class="text-[clamp(4rem,9vw,9rem)] font-normal leading-[0.9]">{t(lang, 'aboutTitle')}</h1>
       <div class="mt-16 grid gap-12 lg:grid-cols-[0.55fr_0.45fr]">
-        <img src="/images/about/portrait.svg" alt="Zi Gui Shi An" class="aspect-[4/3] w-full object-cover" />
+        <img src="/images/about/portrait.png" alt="Zi Gui Shi An" class="h-auto max-w-full object-contain" />
         <div class="space-y-10 text-xl leading-10">
           <p>{t(lang, 'aboutNarrative')}</p>
           <p class="text-muted">
             {lang === 'zh'
-              ? '中文名：师健鑫。英文名：Alexi / Alex Shi。浙江，人工智能方向。长期相信：火星移民终将实现，AGI 将放大人类创造力。'
-              : 'Chinese name: Shi Jianxin. English name: Alexi / Alex Shi. Based in Zhejiang, focused on artificial intelligence. I believe AGI will amplify human creativity and Mars migration will eventually happen.'}
+              ? '中文名：师健鑫。英文名：Alexi / Alex Shi。网络身份：子圭时安。过去曾用名：师兄白泽。浙江，人工智能方向。长期相信：火星移民终将实现，AGI 将放大人类创造力。'
+              : 'Chinese name: Shi Jianxin. English name: Alexi / Alex Shi. Online identity: Zi Gui Shi An. Former name: Shixiong Baize. Based in Zhejiang, focused on artificial intelligence. I believe AGI will amplify human creativity and Mars migration will eventually happen.'}
           </p>
           <div class="grid gap-4 sm:grid-cols-2">
             {identities.map((item) => <div class="border p-6 hairline">{item}</div>)}
@@ -153,6 +267,70 @@ const timeline = lang === 'zh'
             <div class="absolute bottom-8 left-8 right-8 h-px bg-text/30"></div>
           </div>
         ))}
+      </div>
+    </section>
+  )}
+
+  {page === 'uses' && (
+    <section class="site-shell pb-16 pt-36 md:pb-20">
+      <p class="mb-8 text-sm uppercase tracking-[0.18em] text-muted">{lang === 'zh' ? '工具 / 工作流' : 'Tools / Workflow'}</p>
+      <div class="grid gap-12 lg:grid-cols-[0.38fr_0.62fr] lg:items-end">
+        <h1 class="text-[clamp(4rem,9vw,9rem)] font-normal leading-[0.9]">{titleMap.uses}</h1>
+        <p class="max-w-2xl text-xl leading-9 text-muted">{descriptionMap.uses}</p>
+      </div>
+      <div class="mt-20 grid gap-0 border-t hairline">
+        {usesGroups.map((group, index) => (
+          <section class="grid gap-8 border-b py-10 hairline lg:grid-cols-[0.28fr_0.72fr]">
+            <div>
+              <span class="text-sm uppercase tracking-[0.16em] text-muted">{String(index + 1).padStart(2, '0')}</span>
+              <h2 class="mt-5 text-[clamp(2rem,4vw,4rem)] font-normal leading-none">{group.title}</h2>
+            </div>
+            <div>
+              <p class="max-w-3xl text-xl leading-9 text-muted">{group.intro}</p>
+              <div class="mt-8 grid gap-3 sm:grid-cols-2">
+                {group.items.map((item) => (
+                  <div class="border px-5 py-4 text-base hairline md:text-lg">{item}</div>
+                ))}
+              </div>
+            </div>
+          </section>
+        ))}
+      </div>
+      <div class="mt-16 border-y py-10 hairline">
+        <p class="max-w-4xl text-[clamp(1.8rem,3vw,3.4rem)] leading-tight">
+          {lang === 'zh'
+            ? '我选择工具的标准不是流行，而是它能不能进入长期系统，帮助我更快地把想法变成可验证的作品。'
+            : 'I choose tools not because they are fashionable, but because they can enter a long-term system and help turn ideas into verifiable work.'}
+        </p>
+      </div>
+    </section>
+  )}
+
+  {page === 'faq' && (
+    <section class="site-shell pb-16 pt-36 md:pb-20">
+      <p class="mb-8 text-sm uppercase tracking-[0.18em] text-muted">{lang === 'zh' ? '问答 / 实体说明' : 'Questions / Entity Notes'}</p>
+      <div class="grid gap-12 lg:grid-cols-[0.38fr_0.62fr] lg:items-end">
+        <h1 class="text-[clamp(4rem,9vw,9rem)] font-normal leading-[0.9]">{titleMap.faq}</h1>
+        <p class="max-w-2xl text-xl leading-9 text-muted">{descriptionMap.faq}</p>
+      </div>
+      <div class="mt-20 border-t hairline">
+        {faqItems.map(([question, answer], index) => (
+          <details class="group border-b py-8 hairline" open={index < 2}>
+            <summary class="flex cursor-pointer list-none items-start justify-between gap-8 text-2xl leading-tight md:text-3xl">
+              <span class="grid gap-3 md:grid-cols-[4rem_1fr]">
+                <span class="text-base text-muted">{String(index + 1).padStart(2, '0')}</span>
+                <span>{question}</span>
+              </span>
+              <span class="mt-1 text-muted transition-transform group-open:rotate-45">+</span>
+            </summary>
+            <p class="mt-6 max-w-3xl pl-0 text-lg leading-9 text-muted md:ml-16 md:text-xl">{answer}</p>
+          </details>
+        ))}
+      </div>
+      <div class="mt-16 grid gap-4 sm:grid-cols-3">
+        <a class="border p-6 hairline transition-colors hover:bg-text hover:text-bg" href={withLang('/about', lang)}>{lang === 'zh' ? '查看关于我' : 'View About'}</a>
+        <a class="border p-6 hairline transition-colors hover:bg-text hover:text-bg" href={withLang('/works', lang)}>{lang === 'zh' ? '查看作品' : 'View Works'}</a>
+        <a class="border p-6 hairline transition-colors hover:bg-text hover:text-bg" href={withLang('/uses', lang)}>{lang === 'zh' ? '查看工具栈' : 'View Uses'}</a>
       </div>
     </section>
   )}

@@ -4,14 +4,30 @@ import Tag from '@/components/ui/Tag.astro';
 import { contentSlug, formatDate } from '@/utils/content';
 import { getAssetUrl } from '@/utils/assets';
 import { type Lang, withLang } from '@/utils/i18n';
+import { breadcrumbSchema } from '@/utils/seo';
 import { render } from 'astro:content';
 
 const { entry, next, lang = 'zh' } = Astro.props as any;
 const { Content } = await render(entry);
 const status = entry.data.experimental ? 'Experimental' : entry.data.status;
+const labPath = withLang(`/lab/${contentSlug(entry)}`, lang);
 ---
 
-<BaseLayout lang={lang as Lang} title={entry.data.seo?.title ?? entry.data.title} description={entry.data.seo?.description ?? entry.data.description} image={entry.data.ogImage ?? entry.data.cover}>
+<BaseLayout
+  lang={lang as Lang}
+  title={entry.data.seo?.title ?? entry.data.title}
+  description={entry.data.seo?.description ?? entry.data.description}
+  image={entry.data.ogImage ?? entry.data.cover}
+  pageType="creativeWork"
+  publishedTime={entry.data.date}
+  updatedTime={entry.data.updated ?? entry.data.date}
+  tags={entry.data.tags}
+  structuredData={breadcrumbSchema([
+    { name: 'Home', url: withLang('/', lang) },
+    { name: lang === 'zh' ? '实验室' : 'Lab', url: withLang('/lab', lang) },
+    { name: entry.data.title, url: labPath }
+  ])}
+>
   <article class="site-shell pb-16 pt-28 md:pb-20 lg:pt-[7.5rem]">
     <a class="text-sm uppercase tracking-[0.18em] text-muted" href={withLang('/lab', lang)}>{lang === 'zh' ? '返回实验室' : 'Back to Lab'}</a>
     <header class="mt-10 grid gap-12 border-b pb-14 hairline lg:grid-cols-[0.74fr_1.26fr] lg:items-end">
